@@ -16,3 +16,6 @@
 |API 설명|Method|URL|Response|
 |:---:|:---:|:---:|:---:|
 |댓글 생성|POST|/reply/new/{todoId}/{userId}|생성 성공 여부|
+|댓글 수정|PATCH|/reply/{replyId}|수정 성공 여부|
+|댓글 삭제|DELETE|/reply/{replyId}|삭제 성공 여부|
+
