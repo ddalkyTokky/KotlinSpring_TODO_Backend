@@ -1,5 +1,4 @@
 # 1. USE CASE
 # 2. ERD
-![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/4a768646-6a63-490b-8d16-6fd3d59649f7)
-
+![erd](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/c97c9d9a-9f9a-4788-a585-be762c30e980)
 # 3. API
