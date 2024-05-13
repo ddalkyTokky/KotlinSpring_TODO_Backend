@@ -4,5 +4,6 @@
 ![erd](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/c97c9d9a-9f9a-4788-a585-be762c30e980)
 ## 2-2. DDL
 # 3. API
-|API 설명|Method|URL|Request Queary|Response|
+|API 설명|Method|URL|Request Query|Response|
 |:---:|:---:|:---:|:---:|:---:|
+||||||
