@@ -4,6 +4,8 @@
 ![erd](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/c97c9d9a-9f9a-4788-a585-be762c30e980)
 ## 2-2. DDL
 # 3. API
+![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/83f8bd8b-c2e2-48df-912b-61aa3ecb2b82)
+
 |API 설명|Method|URL|Response|
 |:---:|:---:|:---:|:---:|
 |할일 생성|POST|/todo/new|생성 성공 여부|
