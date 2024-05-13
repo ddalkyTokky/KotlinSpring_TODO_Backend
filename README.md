@@ -19,3 +19,7 @@
 |댓글 수정|PATCH|/reply/{replyId}|수정 성공 여부|
 |댓글 삭제|DELETE|/reply/{replyId}|삭제 성공 여부|
 
+|API 설명|Method|URL|Response|
+|:---:|:---:|:---:|:---:|
+|회원 가입|POST|/user/new|가입 성공 여부|
+|로그인|POST|/user/signin|토큰등 식별자|
