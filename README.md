@@ -1,3 +1,5 @@
+# 0. Blog
+([스파르타 코딩클럽] TODO 서버 개발 기획 문서)[https://strawberryrabbit.tistory.com/6]
 # 1. USE CASE
 # 2. DBMS
 ## 2-1. Tables
