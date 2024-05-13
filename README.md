@@ -6,8 +6,8 @@
 # 3. API
 |API 설명|Method|URL|Request Query|Response|
 |:---:|:---:|:---:|:---:|:---:|
-|할일 생성|POST|/todo/create||생성 성공 여부|
-|할일 목록 조회|GET|/todo/list||할일 목록|
+|할일 생성|POST|/todo||생성 성공 여부|
+|할일 목록 조회|GET|/todo||할일 목록|
 |할일 상세 조회|GET|/todo/{todoID}||할일 상세 정보|
 |할일 수정|PUT|/todo/{todoID}||업데이트 성공 여부|
 |할일 삭제|DELETE|/todo/{todoID}||삭제 성공 여부|
