@@ -6,8 +6,8 @@
 ![erd](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/c97c9d9a-9f9a-4788-a585-be762c30e980)
 ## 2-2. DDL
 ```
-CREATE TABLE `member` (                     
-	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,                   
+CREATE TABLE `member` (
+	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR(16) NOT NULL,                   
 	`pw` VARCHAR(32) NOT NULL                   
 );                   
