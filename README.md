@@ -6,6 +6,13 @@
 ![erd](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/c97c9d9a-9f9a-4788-a585-be762c30e980)
 ## 2-2. DDL
 
+<details>
+    <summary>자세히</summary>
+
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+
+</details>
+
 CREATE TABLE `member` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR(16) NOT NULL,
