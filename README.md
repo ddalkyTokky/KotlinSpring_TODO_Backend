@@ -7,11 +7,7 @@
 ## 2-2. DDL
 
 <details>
-    <summary>자세히</summary>
-
-<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
-
-</details>
+    <summary></summary>
 
 CREATE TABLE `member` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -41,6 +37,8 @@ CREATE TABLE `reply` (
 ALTER TABLE `todo` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
 ALTER TABLE `reply` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
 ALTER TABLE `reply` ADD FOREIGN KEY (`todo_id`) REFERENCES `todo` (`id`);
+
+</details>
 
 # 3. API
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/83f8bd8b-c2e2-48df-912b-61aa3ecb2b82)
