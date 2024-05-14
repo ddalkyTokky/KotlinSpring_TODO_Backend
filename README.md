@@ -19,7 +19,7 @@ CREATE TABLE `todo` (
 	`content` VARCHAR(255) NOT NULL,
 	`created_at` timestamp NOT NULL,
 	`status` ENUM ('WORKING', 'DONE') NOT NULL,
-    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE
+	FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE
 );
 
 CREATE TABLE `reply` (
@@ -27,8 +27,8 @@ CREATE TABLE `reply` (
 	`member_id` bigint UNSIGNED NOT NULL,
 	`todo_id` bigint UNSIGNED NOT NULL,
 	`content` VARCHAR(255) NOT NULL,
-    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE,
-    FOREIGN KEY (todo_id) REFERENCES todo(id) ON DELETE CASCADE
+	FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE,
+	FOREIGN KEY (todo_id) REFERENCES todo(id) ON DELETE CASCADE
 );
 
 ALTER TABLE `todo` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
