@@ -23,6 +23,7 @@
 4. IoC / DI 에 대해 간략하게 설명해 주세요!
    
 # 2. USE CASE
+![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/b737ae76-0f9e-48f0-8547-d85f72af3189)
 # 3. DBMS
 ## 3-1. Tables
 ![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/4a3b4906-4f3a-48cb-976b-afee3e61ddd6)
