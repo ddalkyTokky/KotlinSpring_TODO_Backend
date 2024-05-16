@@ -1,4 +1,4 @@
-# 0. Blog
+![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/ce3ffed6-fc52-4156-875d-a483e7e6a31f)# 0. Blog
 **[[스파르타 코딩클럽] TODO 서버 개발 기획 문서](https://strawberryrabbit.tistory.com/6)**
 # 1. 질문 사항
 
@@ -7,12 +7,15 @@
 
 1. 수정, 삭제 API의 request를 어떤 방식으로 사용 하셨나요? (param, query, body)                
 **_- 수정 삭제의 목표가 되는 '할일', '댓글'의 ID (PK) 에 대해서는 Param으로, 수정할 내용은 body에 담아 사용함._**               
+               
 2. RESTful한 API를 설계하셨나요? 어떤 부분이 그런가요? 어떤 부분이 그렇지 않나요?               
 _**- 모든 API에서 행위에 대한 부분은 메쏘드만으로 표현하도록 함.**_               
 _**- 수정 / 상태수정 과 같은 메소드와 URL 모두 겹치는 일부의 경우에만 한하여 URL에 행위를 추가함.**_               
+               
 3. 적절한 관심사 분리를 적용하셨나요? (Controller, Service, Repository)               
 _**- 숙련 강의 예제의 구조를 모사함.**_               
 _**- 현 수준에서는 충분하다고 생각됨.**_               
+               
 4. API 명세서 작성 가이드라인을 검색하여 직접 작성한 API 명세서와 비교해보세요!               
 _**- 굿.**_               
                
