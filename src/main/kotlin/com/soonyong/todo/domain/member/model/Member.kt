@@ -1,6 +1,5 @@
 package com.soonyong.todo.domain.member.model
 
-import com.soonyong.todo.domain.todo.model.Todo
 import jakarta.persistence.*
 import lombok.Getter
 
@@ -12,8 +11,15 @@ class Member {
     var id: Long? = null
 
     @Column(unique = true, nullable = false, length = 16)
-    val name: String? = null
+    var name: String? = null
 
     @Column(nullable = false, length = 32)
-    val pw: String? = null
+    var pw: String? = null
+
+    fun createMember(name: String, pw: String): Member{
+        val member: Member = Member()
+        member.name = name
+        member.pw = pw
+        return member
+    }
 }

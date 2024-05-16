@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.reply.model;
 
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.todo.model.Todo
+import com.soonyong.todo.domain.todo.model.TodoStatus
 import jakarta.persistence.*
 
 @Entity
@@ -12,12 +13,20 @@ class Reply {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    val member: Member? = null
+    var member: Member? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id")
-    val todo: Todo? = null
+    var todo: Todo? = null
 
     @Column(nullable = false)
     var content: String? = null
+
+    fun createReply(member: Member, todo: Todo, content: String): Reply{
+        val reply: Reply = Reply()
+        reply.member = member
+        reply.todo = todo
+        reply.content = content
+        return reply
+    }
 }
