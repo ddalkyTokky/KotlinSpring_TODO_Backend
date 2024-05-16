@@ -25,7 +25,7 @@
 # 2. USE CASE
 # 3. DBMS
 ## 3-1. Tables
-![erd](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/c97c9d9a-9f9a-4788-a585-be762c30e980)
+![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/4a3b4906-4f3a-48cb-976b-afee3e61ddd6)
 ## 3-2. DDL
 ```
 CREATE TABLE `member` (
