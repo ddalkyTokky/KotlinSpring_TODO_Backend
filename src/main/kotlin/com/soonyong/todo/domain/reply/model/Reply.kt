@@ -1,9 +1,9 @@
-package com.soonyong.todo.domain.todo.model
+package com.soonyong.todo.domain.reply.model;
 
 import jakarta.persistence.*
 
 @Entity
-class Todo {
+class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
