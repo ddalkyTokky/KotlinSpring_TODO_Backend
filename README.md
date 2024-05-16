@@ -1,4 +1,3 @@
-![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/ce3ffed6-fc52-4156-875d-a483e7e6a31f)# 0. Blog
 **[[스파르타 코딩클럽] TODO 서버 개발 기획 문서](https://strawberryrabbit.tistory.com/6)**
 # 1. 질문 사항
 
