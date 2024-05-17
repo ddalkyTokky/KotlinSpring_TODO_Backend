@@ -1,5 +1,6 @@
 package com.soonyong.todo.domain.member.model
 
+import com.soonyong.todo.domain.member.dto.MemberResponse
 import jakarta.persistence.*
 import lombok.Getter
 
@@ -23,5 +24,11 @@ class Member {
             member.pw = pw
             return member
         }
+    }
+
+    fun toResponse(): MemberResponse {
+        return MemberResponse(
+            name = this.name
+        )
     }
 }
