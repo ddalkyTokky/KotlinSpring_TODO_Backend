@@ -12,9 +12,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 public class TodoService (
     private val todoRepository: TodoRepository
-    private val
 ){
-    fun getTodoById(todoId: Long): TodoResponse {
+    fun getTodoResponseById(todoId: Long): TodoResponse {
         val todo: Todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
         return todo.toResponse()
     }

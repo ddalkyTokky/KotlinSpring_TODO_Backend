@@ -23,6 +23,6 @@ public class TodoController (
     fun getTodo(@PathVariable todoId: Long): ResponseEntity<TodoResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.getTodoById(todoId))
+            .body(todoService.getTodoResponseById(todoId))
     }
 }
