@@ -16,10 +16,12 @@ class Member {
     @Column(nullable = false, length = 32)
     var pw: String? = null
 
-    fun createMember(name: String, pw: String): Member{
-        val member: Member = Member()
-        member.name = name
-        member.pw = pw
-        return member
+    companion object {
+        fun createMember(name: String, pw: String): Member {
+            val member: Member = Member()
+            member.name = name
+            member.pw = pw
+            return member
+        }
     }
 }

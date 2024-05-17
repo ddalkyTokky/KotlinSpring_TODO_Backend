@@ -22,11 +22,13 @@ class Reply {
     @Column(nullable = false)
     var content: String? = null
 
-    fun createReply(member: Member, todo: Todo, content: String): Reply{
-        val reply: Reply = Reply()
-        reply.member = member
-        reply.todo = todo
-        reply.content = content
-        return reply
+    companion object {
+        fun createReply(member: Member, todo: Todo, content: String): Reply {
+            val reply: Reply = Reply()
+            reply.member = member
+            reply.todo = todo
+            reply.content = content
+            return reply
+        }
     }
 }

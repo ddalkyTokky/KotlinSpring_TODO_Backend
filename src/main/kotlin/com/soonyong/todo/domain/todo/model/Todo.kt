@@ -27,13 +27,15 @@ class Todo(): CreatedAtEntity() {
     @Column(nullable = false)
     var status: TodoStatus = TodoStatus.WORKING
 
-    fun createTodo(member: Member, title: String, content: String): Todo{
-        val todo: Todo = Todo()
-        todo.member = member
-        todo.title = title
-        todo.content = content
-        todo.status = TodoStatus.WORKING
-        return todo
+    companion object{
+        fun createTodo(member: Member, title: String, content: String): Todo{
+            val todo: Todo = Todo()
+            todo.member = member
+            todo.title = title
+            todo.content = content
+            todo.status = TodoStatus.WORKING
+            return todo
+        }
     }
 
     fun toResponse(): TodoResponse {
