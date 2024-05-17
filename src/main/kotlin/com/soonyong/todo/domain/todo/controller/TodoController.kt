@@ -47,4 +47,11 @@ public class TodoController (
             .status(HttpStatus.NO_CONTENT)
             .body(todoService.deleteTodo(todoId))
     }
+
+    @PatchMapping("/{todoId}/done")
+    fun updateTodo(@PathVariable todoId: Long): ResponseEntity<TodoResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(todoService.finishTodo(todoId))
+    }
 }

@@ -42,4 +42,10 @@ public class TodoService (
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
         todoRepository.delete(todo)
     }
+
+    @Transactional
+    fun finishTodo(todoId: Long): TodoResponse {
+        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
+        return todo.finishTodo().toResponse()
+    }
 }

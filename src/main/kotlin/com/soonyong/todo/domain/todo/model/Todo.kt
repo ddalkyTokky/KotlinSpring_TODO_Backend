@@ -42,6 +42,11 @@ class Todo(): CreatedAtEntity() {
         }
     }
 
+    fun finishTodo(): Todo {
+        this.status = TodoStatus.DONE
+        return this
+    }
+
     fun toResponse(): TodoResponse {
         return TodoResponse(
             title = this.title,
