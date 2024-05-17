@@ -30,7 +30,7 @@ class Todo(): CreatedAtEntity() {
     @Column(nullable = false)
     var status: TodoStatus = TodoStatus.WORKING
 
-    @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, orphanRemoval = true)
     val replies: MutableList<Reply> = mutableListOf()
 
     companion object{
