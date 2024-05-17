@@ -77,12 +77,18 @@ class Todo(): CreatedAtEntity() {
     }
 
     fun toDetailResponse(): TodoDetailResponse {
+        val repliesString: MutableList<String> = mutableListOf()
+        this.replies.forEach{
+            repliesString.add(it.toString())
+        }
+
         return TodoDetailResponse(
             title = this.title,
             content = this.content,
             createdAt = this.createdAt,
             author = this.member?.name,
-            status = this.status
+            status = this.status,
+            replies = repliesString
         )
     }
 }

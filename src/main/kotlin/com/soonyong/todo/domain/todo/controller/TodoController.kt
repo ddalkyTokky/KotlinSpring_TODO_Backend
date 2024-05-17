@@ -25,7 +25,11 @@ public class TodoController (
     fun getTodo(@PathVariable todoId: Long): ResponseEntity<TodoDetailResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.getTodoResponseById(todoId))
+            .body(
+                todoService
+                .getTodoById(todoId)
+                .toDetailResponse()
+            )
     }
 
     @GetMapping("/list")

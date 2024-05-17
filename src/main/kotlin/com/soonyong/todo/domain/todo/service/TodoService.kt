@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.todo.service;
 
 import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
+import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
 import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.model.Todo
@@ -16,9 +17,9 @@ public class TodoService (
     private val todoRepository: TodoRepository,
     private val memberService : MemberService
 ) {
-    fun getTodoResponseById(todoId: Long): TodoSimpleResponse {
+    fun getTodoById(todoId: Long): Todo {
         val todo: Todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-        return todo.toSimpleResponse()
+        return todo
     }
 
     @Transactional
