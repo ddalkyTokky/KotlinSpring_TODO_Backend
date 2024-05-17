@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service
 class ReplyService (
     private val replyRepository : ReplyRepository
 ){
-    
+
 }

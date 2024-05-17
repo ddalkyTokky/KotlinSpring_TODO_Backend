@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.todo.model
 
 import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
+import com.soonyong.todo.domain.reply.model.Reply
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoResponse
 import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
@@ -28,6 +29,9 @@ class Todo(): CreatedAtEntity() {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: TodoStatus = TodoStatus.WORKING
+
+    @OneToMany(mappedBy = "reply", fetch = FetchType.LAZY, orphanRemoval = true)
+    val replies: MutableList<Reply> = mutableListOf()
 
     companion object{
         fun createTodo(
