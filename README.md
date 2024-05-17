@@ -70,3 +70,38 @@ ALTER TABLE `reply` ADD FOREIGN KEY (`todo_id`) REFERENCES `todo` (`id`);
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/53b30e2d-4900-4130-b0f0-34f5ef514f8a)
 ## 4-3. User API
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/247239e5-672c-4e6a-a196-9bf97e2d4509)
+
+# 5. 코드 특징
+예제 코드와 몇 가지 다른 점이 존재한다.
+Entity Class Property 기능을 사용하지 않고, companion 등을 활용한 [독자적인 생성 및 수정 패턴](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/Step1/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L32)을 사용햇다.
+
+```
+companion object{
+        fun createTodo(
+            todoCreateRequest: TodoCreateRequest,
+            member: Member
+            ): Todo {
+            val todo: Todo = Todo()
+            todo.member = member
+            todo.title = todoCreateRequest.title
+            todo.content = todoCreateRequest.content
+            todo.status = TodoStatus.WORKING
+            return todo
+        }
+    }
+```
+
+```
+fun updateTodo(todoUpdateRequest: TodoUpdateRequest): Todo{
+        if(todoUpdateRequest.name != null){
+            this.member!!.updateName(todoUpdateRequest.name)
+        }
+        if(todoUpdateRequest.title != null){
+            this.title = todoUpdateRequest.title
+        }
+        if(todoUpdateRequest.content != null) {
+            this.content = todoUpdateRequest.content
+        }
+        return this
+    }
+```
