@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 public class TodoService (
     private val todoRepository: TodoRepository,
     private val memberService : MemberService
-){
+) {
     fun getTodoResponseById(todoId: Long): TodoResponse {
         val todo: Todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
         return todo.toResponse()
@@ -30,7 +30,10 @@ public class TodoService (
         ).toResponse()
     }
 
-    fun getAllTodoList(): List<TodoResponse> {
-        return todoRepository.findAll().map { it.toResponse() }
+    fun getAllTodoList(orderBy: String): List<TodoResponse> {
+        if (orderBy.equals("descend")) {
+            return todoRepository.findAllByOrderByCreatedAtDesc().map { it.toResponse() }
+        }
+        return todoRepository.findAllByOrderByCreatedAt().map { it.toResponse() }
     }
 }

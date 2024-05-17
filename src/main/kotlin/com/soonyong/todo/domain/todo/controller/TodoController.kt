@@ -28,8 +28,14 @@ public class TodoController (
 
     @GetMapping("/list")
     fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoResponse>> {
+        val orderBy: String? = params.get("order")
+        if(orderBy.equals("ascend") or orderBy.equals("descend")){
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(todoService.getAllTodoList(orderBy!!))
+        }
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(todoService.getAllTodoList())
+            .status(HttpStatus.BAD_REQUEST)
+            .body(null)
     }
 }
