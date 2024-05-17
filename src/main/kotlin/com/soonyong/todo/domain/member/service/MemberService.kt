@@ -13,7 +13,7 @@ class MemberService (
     private val memberRepository: MemberRepository
 ){
     fun getMemberById(memberId: Long): Member {
-        val member: Member = memberRepository.findByIdOrNull(memberId) ?: throw ModelNotFoundException("Todo", memberId)
+        val member: Member = memberRepository.findByIdOrNull(memberId) ?: throw ModelNotFoundException("Member", memberId.toString())
         return member
     }
 }

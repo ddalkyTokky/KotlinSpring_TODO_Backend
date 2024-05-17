@@ -26,6 +26,10 @@ class Member {
         }
     }
 
+    fun updateName(name: String){
+        this.name = name
+    }
+
     fun toResponse(): MemberResponse {
         return MemberResponse(
             name = this.name

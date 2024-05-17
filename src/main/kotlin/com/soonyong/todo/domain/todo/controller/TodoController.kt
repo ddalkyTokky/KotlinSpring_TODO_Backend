@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.todo.controller;
 
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoResponse
+import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.service.TodoService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -49,9 +50,19 @@ public class TodoController (
     }
 
     @PatchMapping("/{todoId}/done")
-    fun updateTodo(@PathVariable todoId: Long): ResponseEntity<TodoResponse> {
+    fun finishTodo(@PathVariable todoId: Long): ResponseEntity<TodoResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.finishTodo(todoId))
+    }
+
+    @PatchMapping("/{todoId}/edit")
+    fun updateTodo(
+        @PathVariable todoId: Long,
+        todoUpdateRequest: TodoUpdateRequest
+    ): ResponseEntity<TodoResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(todoService.updateTodo(todoId, todoUpdateRequest))
     }
 }

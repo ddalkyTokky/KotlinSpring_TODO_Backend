@@ -2,5 +2,5 @@ package com.soonyong.todo.infra.exception
 
 data class ModelNotFoundException(
     val modelName: String,
-    val id: Long
-): RuntimeException("Model ${modelName} not found with id ${id}")
+    val input: String
+): RuntimeException("Model ${modelName} not found with id ${input}")

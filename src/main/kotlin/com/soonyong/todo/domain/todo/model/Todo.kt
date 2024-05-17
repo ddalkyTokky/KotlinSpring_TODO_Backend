@@ -4,6 +4,7 @@ import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoResponse
+import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import jakarta.persistence.*
 import lombok.Getter
 
@@ -44,6 +45,16 @@ class Todo(): CreatedAtEntity() {
 
     fun finishTodo(): Todo {
         this.status = TodoStatus.DONE
+        return this
+    }
+
+    fun updateTodo(todoUpdateRequest: TodoUpdateRequest): Todo{
+        if(todoUpdateRequest.title != null){
+            this.title = todoUpdateRequest.title
+        }
+        if(todoUpdateRequest.content != null) {
+            this.content = todoUpdateRequest.content
+        }
         return this
     }
 

@@ -3,6 +3,7 @@ package com.soonyong.todo.domain.todo.service;
 import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoResponse
+import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.model.Todo
 import com.soonyong.todo.domain.todo.repository.TodoRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
@@ -16,7 +17,7 @@ public class TodoService (
     private val memberService : MemberService
 ) {
     fun getTodoResponseById(todoId: Long): TodoResponse {
-        val todo: Todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
+        val todo: Todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
         return todo.toResponse()
     }
 
@@ -39,13 +40,25 @@ public class TodoService (
 
     @Transactional
     fun deleteTodo(todoId: Long) {
-        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
+        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
         todoRepository.delete(todo)
     }
 
     @Transactional
     fun finishTodo(todoId: Long): TodoResponse {
-        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
+        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
         return todo.finishTodo().toResponse()
+    }
+
+    @Transactional
+    fun updateTodo(todoId: Long, todoUpdateRequest: TodoUpdateRequest): TodoResponse {
+        val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
+
+        if(todoUpdateRequest.name != null) {
+            val member = memberService.getMemberByName(todoUpdateRequest.name)
+            member.update
+        }
+
+        return todo.updateTodo(todoUpdateRequest).toResponse()
     }
 }
