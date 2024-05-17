@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.todo.model
 
 import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
+import com.soonyong.todo.domain.todo.dto.TodoResponse
 import jakarta.persistence.*
 import lombok.Getter
 
@@ -33,5 +34,15 @@ class Todo(): CreatedAtEntity() {
         todo.content = content
         todo.status = TodoStatus.WORKING
         return todo
+    }
+
+    fun toResponse(): TodoResponse {
+        return TodoResponse(
+            title = this.title,
+            content = this.content,
+            createdAt = this.createdAt,
+            author = this.member?.name,
+            status = this.status
+        )
     }
 }

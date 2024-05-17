@@ -6,7 +6,7 @@ import jakarta.persistence.MappedSuperclass
 import lombok.Getter
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import java.time.LocalDateTime
+import java.sql.Timestamp
 
 @Getter
 @MappedSuperclass
@@ -14,5 +14,5 @@ import java.time.LocalDateTime
 abstract class CreatedAtEntity {
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    open var createdAt: LocalDateTime? = null
+    open var createdAt: Timestamp? = null
 }
