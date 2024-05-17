@@ -2,7 +2,7 @@ package com.soonyong.todo.domain.todo.service;
 
 import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
-import com.soonyong.todo.domain.todo.dto.TodoResponse
+import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.model.Todo
 import com.soonyong.todo.domain.todo.repository.TodoRepository
@@ -16,26 +16,26 @@ public class TodoService (
     private val todoRepository: TodoRepository,
     private val memberService : MemberService
 ) {
-    fun getTodoResponseById(todoId: Long): TodoResponse {
+    fun getTodoResponseById(todoId: Long): TodoSimpleResponse {
         val todo: Todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-        return todo.toResponse()
+        return todo.toSimpleResponse()
     }
 
     @Transactional
-    fun createTodo(todoCreateRequest: TodoCreateRequest): TodoResponse {
+    fun createTodo(todoCreateRequest: TodoCreateRequest): TodoSimpleResponse {
         return todoRepository.save(
             Todo.createTodo(
                 todoCreateRequest,
                 memberService.getMemberById(todoCreateRequest.member_id)
             )
-        ).toResponse()
+        ).toSimpleResponse()
     }
 
-    fun getAllTodoList(orderBy: String): List<TodoResponse> {
+    fun getAllTodoList(orderBy: String): List<TodoSimpleResponse> {
         if (orderBy.equals("descend")) {
-            return todoRepository.findAllByOrderByCreatedAtDesc().map { it.toResponse() }
+            return todoRepository.findAllByOrderByCreatedAtDesc().map { it.toSimpleResponse() }
         }
-        return todoRepository.findAllByOrderByCreatedAt().map { it.toResponse() }
+        return todoRepository.findAllByOrderByCreatedAt().map { it.toSimpleResponse() }
     }
 
     @Transactional
@@ -45,14 +45,14 @@ public class TodoService (
     }
 
     @Transactional
-    fun finishTodo(todoId: Long): TodoResponse {
+    fun finishTodo(todoId: Long): TodoSimpleResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-        return todo.finishTodo().toResponse()
+        return todo.finishTodo().toSimpleResponse()
     }
 
     @Transactional
-    fun updateTodo(todoId: Long, todoUpdateRequest: TodoUpdateRequest): TodoResponse {
+    fun updateTodo(todoId: Long, todoUpdateRequest: TodoUpdateRequest): TodoSimpleResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-        return todo.updateTodo(todoUpdateRequest).toResponse()
+        return todo.updateTodo(todoUpdateRequest).toSimpleResponse()
     }
 }

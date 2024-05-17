@@ -1,7 +1,8 @@
 package com.soonyong.todo.domain.todo.controller;
 
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
-import com.soonyong.todo.domain.todo.dto.TodoResponse
+import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
+import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.service.TodoService
 import org.springframework.http.HttpStatus
@@ -14,21 +15,21 @@ public class TodoController (
     private val todoService: TodoService
 ){
     @PostMapping("/new")
-    fun createTodo(@RequestBody createTodoRequest: TodoCreateRequest): ResponseEntity<TodoResponse> {
+    fun createTodo(@RequestBody createTodoRequest: TodoCreateRequest): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(todoService.createTodo(createTodoRequest))
     }
 
     @GetMapping("/{todoId}")
-    fun getTodo(@PathVariable todoId: Long): ResponseEntity<TodoResponse> {
+    fun getTodo(@PathVariable todoId: Long): ResponseEntity<TodoDetailResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.getTodoResponseById(todoId))
     }
 
     @GetMapping("/list")
-    fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoResponse>> {
+    fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoSimpleResponse>> {
         val orderBy: String? = params.get("order")
         if(orderBy.equals("ascend") or orderBy.equals("descend")){
             return ResponseEntity
@@ -50,7 +51,7 @@ public class TodoController (
     }
 
     @PatchMapping("/{todoId}/done")
-    fun finishTodo(@PathVariable todoId: Long): ResponseEntity<TodoResponse> {
+    fun finishTodo(@PathVariable todoId: Long): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.finishTodo(todoId))
@@ -60,7 +61,7 @@ public class TodoController (
     fun updateTodo(
         @PathVariable todoId: Long,
         todoUpdateRequest: TodoUpdateRequest
-    ): ResponseEntity<TodoResponse> {
+    ): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.updateTodo(todoId, todoUpdateRequest))

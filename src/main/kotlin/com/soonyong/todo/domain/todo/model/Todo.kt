@@ -4,7 +4,8 @@ import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.reply.model.Reply
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
-import com.soonyong.todo.domain.todo.dto.TodoResponse
+import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
+import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import jakarta.persistence.*
 import lombok.Getter
@@ -65,8 +66,18 @@ class Todo(): CreatedAtEntity() {
         return this
     }
 
-    fun toResponse(): TodoResponse {
-        return TodoResponse(
+    fun toSimpleResponse(): TodoSimpleResponse {
+        return TodoSimpleResponse(
+            title = this.title,
+            content = this.content,
+            createdAt = this.createdAt,
+            author = this.member?.name,
+            status = this.status
+        )
+    }
+
+    fun toDetailResponse(): TodoDetailResponse {
+        return TodoDetailResponse(
             title = this.title,
             content = this.content,
             createdAt = this.createdAt,
