@@ -17,4 +17,6 @@ public class TodoService (
         val todo: Todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
         return todo.toResponse()
     }
+
+
 }
