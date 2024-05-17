@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.todo.model
 
 import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
+import com.soonyong.todo.domain.reply.dto.ReplyResponse
 import com.soonyong.todo.domain.reply.model.Reply
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
@@ -77,18 +78,13 @@ class Todo(): CreatedAtEntity() {
     }
 
     fun toDetailResponse(): TodoDetailResponse {
-        val repliesString: MutableList<String> = mutableListOf()
-        this.replies.forEach{
-            repliesString.add(it.toString())
-        }
-
         return TodoDetailResponse(
             title = this.title,
             content = this.content,
             createdAt = this.createdAt,
             author = this.member?.name,
             status = this.status,
-            replies = repliesString
+            replies = this.replies.map {it.toResponse()}
         )
     }
 }
