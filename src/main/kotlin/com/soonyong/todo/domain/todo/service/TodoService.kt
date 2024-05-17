@@ -53,12 +53,6 @@ public class TodoService (
     @Transactional
     fun updateTodo(todoId: Long, todoUpdateRequest: TodoUpdateRequest): TodoResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-
-        if(todoUpdateRequest.name != null) {
-            val member = memberService.getMemberByName(todoUpdateRequest.name)
-            member.update
-        }
-
         return todo.updateTodo(todoUpdateRequest).toResponse()
     }
 }

@@ -49,6 +49,9 @@ class Todo(): CreatedAtEntity() {
     }
 
     fun updateTodo(todoUpdateRequest: TodoUpdateRequest): Todo{
+        if(todoUpdateRequest.name != null){
+            this.member!!.updateName(todoUpdateRequest.name)
+        }
         if(todoUpdateRequest.title != null){
             this.title = todoUpdateRequest.title
         }
