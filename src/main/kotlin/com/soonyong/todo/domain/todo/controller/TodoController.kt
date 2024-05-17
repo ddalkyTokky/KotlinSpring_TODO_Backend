@@ -38,4 +38,13 @@ public class TodoController (
             .status(HttpStatus.BAD_REQUEST)
             .body(null)
     }
+
+    @DeleteMapping("/{todoId}")
+    fun deleteTodo(
+        @PathVariable todoId: Long
+    ): ResponseEntity<Unit> {
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .body(todoService.deleteTodo(todoId))
+    }
 }
