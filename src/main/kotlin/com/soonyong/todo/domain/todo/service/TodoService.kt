@@ -29,4 +29,8 @@ public class TodoService (
             )
         ).toResponse()
     }
+
+    fun getAllTodoList(): List<TodoResponse> {
+        return todoRepository.findAll().map { it.toResponse() }
+    }
 }

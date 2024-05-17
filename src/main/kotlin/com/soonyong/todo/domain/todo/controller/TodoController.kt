@@ -25,4 +25,11 @@ public class TodoController (
             .status(HttpStatus.OK)
             .body(todoService.getTodoResponseById(todoId))
     }
+
+    @GetMapping("/list")
+    fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(todoService.getAllTodoList())
+    }
 }
