@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service
 class MemberService (
     private val memberRepository: MemberRepository
 ){
-    fun getMemberById(memberId: Long): MemberResponse {
+    fun getMemberById(memberId: Long): Member {
         val member: Member = memberRepository.findByIdOrNull(memberId) ?: throw ModelNotFoundException("Todo", memberId)
-        return member.toResponse()
+        return member
     }
 }

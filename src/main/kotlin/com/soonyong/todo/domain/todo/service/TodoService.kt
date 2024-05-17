@@ -1,5 +1,6 @@
 package com.soonyong.todo.domain.todo.service;
 
+import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoResponse
 import com.soonyong.todo.domain.todo.model.Todo
@@ -11,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 public class TodoService (
-    private val todoRepository: TodoRepository
+    private val todoRepository: TodoRepository,
+    private val memberService : MemberService
 ){
     fun getTodoResponseById(todoId: Long): TodoResponse {
         val todo: Todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId)
@@ -19,10 +21,12 @@ public class TodoService (
     }
 
     @Transactional
-    fun createTodo(createTodoRequest: TodoCreateRequest): TodoResponse {
-
+    fun createTodo(todoCreateRequest: TodoCreateRequest): TodoResponse {
         return todoRepository.save(
-            Todo.createTodo(TodoCreateRequest, )
+            Todo.createTodo(
+                todoCreateRequest,
+                memberService.getMemberById(todoCreateRequest.member_id)
+            )
         ).toResponse()
     }
 }

@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.todo.model
 
 import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
+import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoResponse
 import jakarta.persistence.*
 import lombok.Getter
@@ -28,11 +29,14 @@ class Todo(): CreatedAtEntity() {
     var status: TodoStatus = TodoStatus.WORKING
 
     companion object{
-        fun createTodo(member: Member, title: String, content: String): Todo{
+        fun createTodo(
+            todoCreateRequest: TodoCreateRequest,
+            member: Member
+            ): Todo {
             val todo: Todo = Todo()
             todo.member = member
-            todo.title = title
-            todo.content = content
+            todo.title = todoCreateRequest.title
+            todo.content = todoCreateRequest.content
             todo.status = TodoStatus.WORKING
             return todo
         }
