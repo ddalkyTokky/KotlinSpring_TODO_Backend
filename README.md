@@ -31,7 +31,7 @@ _**- 굿.**_
 # 3. DBMS
 ## 3-1. Tables
 ![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/4a3b4906-4f3a-48cb-976b-afee3e61ddd6)
-## 3-2. DDL
+## 3-2. DDL (MYSQL)
 ```
 CREATE TABLE `member` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
