@@ -68,8 +68,8 @@ ALTER TABLE `reply` ADD FOREIGN KEY (`todo_id`) REFERENCES `todo` (`id`);
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/bf91b655-2786-4ed1-8441-e902f7de252d)
 ## 4-2. Reply API
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/4a5b5cb6-cd94-482e-a2ba-713d9953e196)
-## 4-3. User API
-![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/247239e5-672c-4e6a-a196-9bf97e2d4509)
+## 4-3. Member API
+![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/cbf9a009-1055-4c3c-97a4-f7edeaef55a4)
 
 # 5. 코드 특징
 예제 코드와 몇 가지 다른 점이 존재한다.
