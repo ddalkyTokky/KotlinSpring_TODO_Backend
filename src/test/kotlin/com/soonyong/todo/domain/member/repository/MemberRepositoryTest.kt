@@ -18,7 +18,7 @@ class MemberRepositoryTest () {
     fun memberCreateTest() {
         memberRepository.save(
             Member.createMember(
-                "이순용",
+                "Lee Soon Yong",
                 "helloworld"
             )
         )

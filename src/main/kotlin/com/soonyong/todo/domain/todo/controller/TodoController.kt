@@ -22,12 +22,17 @@ public class TodoController (
     }
 
     @GetMapping()
-    fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoSimpleResponse>> {
+    fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoSimpleResponse>?> {
         val todoSearch: TodoSearch = TodoSearch(params.get("order"), params.get("member"))
 
+        if(todoSearch.order.equals("descend") || todoSearch.order.equals("ascend") || (todoSearch.order == null)){
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(todoService.getAllTodoList(todoSearch))
+        }
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(todoService.getAllTodoList(todoSearch))
+            .status(HttpStatus.BAD_REQUEST)
+            .body(null)
     }
 
     @GetMapping("/{todoId}")

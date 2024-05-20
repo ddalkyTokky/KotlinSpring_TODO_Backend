@@ -31,11 +31,27 @@ public class TodoService (
         ).toSimpleResponse()
     }
 
-    fun getAllTodoList(todoSearch: TodoSearch): List<TodoSimpleResponse> {
+    fun getAllTodoList(todoSearch: TodoSearch): List<TodoSimpleResponse>? {
         if (todoSearch.order.equals("descend")) {
-            return todoRepository.findAllByOrderByCreatedAtDesc().map { it.toSimpleResponse() }
+            if (todoSearch.member == null) {
+                return todoRepository.findAllByOrderByCreatedAtDesc().map { it.toSimpleResponse() }
+            } else if (todoSearch.member.isBlank()) {
+                return todoRepository.findAllByOrderByCreatedAtDesc().map { it.toSimpleResponse() }
+            }
+
+            return todoRepository.findAllByMemberNameOrderByCreatedAtDesc(todoSearch.member)
+                .map { it.toSimpleResponse() }
+        } else if (todoSearch.order.equals("ascend") || (todoSearch.order == null)) {
+            if (todoSearch.member == null) {
+                return todoRepository.findAllByOrderByCreatedAtAsc().map { it.toSimpleResponse() }
+            } else if (todoSearch.member.isBlank()) {
+                return todoRepository.findAllByOrderByCreatedAtAsc().map { it.toSimpleResponse() }
+            }
+
+            return todoRepository.findAllByMemberNameOrderByCreatedAtAsc(todoSearch.member)
+                .map { it.toSimpleResponse() }
         }
-        return todoRepository.findAllByOrderByCreatedAt().map { it.toSimpleResponse() }
+        return null
     }
 
     @Transactional
