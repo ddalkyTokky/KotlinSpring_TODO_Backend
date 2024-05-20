@@ -46,8 +46,8 @@ CREATE TABLE `member` (
 CREATE TABLE `todo` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	`member_id` bigint UNSIGNED NOT NULL,
-	`title`	VARCHAR(32) NOT NULL,
-	`content` VARCHAR(255) NOT NULL,
+	`title`	VARCHAR(200) NOT NULL,
+	`content` VARCHAR(1000) NOT NULL,
 	`created_at` timestamp NOT NULL,
 	`status` ENUM ('WORKING', 'DONE') NOT NULL,
 	FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE

@@ -20,10 +20,10 @@ class Todo(): CreatedAtEntity() {
     @JoinColumn(name = "member_id")
     var member: Member? = null
 
-    @Column(nullable = false, length = 32)
+    @Column(nullable = false, length = 200)
     var title: String? = null
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     var content: String? = null
 
     @Enumerated(EnumType.STRING)
