@@ -3,7 +3,6 @@ package com.soonyong.todo.domain.reply.model;
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.reply.dto.ReplyRequest
 import com.soonyong.todo.domain.reply.dto.ReplyResponse
-import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.model.Todo
 import com.soonyong.todo.domain.todo.model.TodoStatus
 import jakarta.persistence.*

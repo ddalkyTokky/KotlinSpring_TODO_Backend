@@ -78,13 +78,13 @@ Entity Class Property 기능을 사용하지 않고, companion 등을 활용한 
 ```
 companion object{
         fun createTodo(
-            todoCreateRequest: TodoCreateRequest,
+            todoRequest: TodoRequest,
             member: Member
             ): Todo {
             val todo: Todo = Todo()
             todo.member = member
-            todo.title = todoCreateRequest.title
-            todo.content = todoCreateRequest.content
+            todo.title = todoRequest.title
+            todo.content = todoRequest.content
             todo.status = TodoStatus.WORKING
             return todo
         }
@@ -92,15 +92,15 @@ companion object{
 ```
 
 ```
-fun updateTodo(todoUpdateRequest: TodoUpdateRequest): Todo{
-        if(todoUpdateRequest.name != null){
-            this.member!!.updateName(todoUpdateRequest.name)
+fun updateTodo(todoRequest: TodoRequest): Todo{
+        if(todoRequest.name != null){
+            this.member!!.updateName(todoRequest.name)
         }
-        if(todoUpdateRequest.title != null){
-            this.title = todoUpdateRequest.title
+        if(todoRequest.title != null){
+            this.title = todoRequest.title
         }
-        if(todoUpdateRequest.content != null) {
-            this.content = todoUpdateRequest.content
+        if(todoRequest.content != null) {
+            this.content = todoRequest.content
         }
         return this
     }

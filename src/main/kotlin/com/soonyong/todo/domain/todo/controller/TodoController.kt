@@ -1,9 +1,8 @@
 package com.soonyong.todo.domain.todo.controller;
 
-import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
+import com.soonyong.todo.domain.todo.dto.TodoRequest
 import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
 import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
-import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.service.TodoService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,7 +14,7 @@ public class TodoController (
     private val todoService: TodoService
 ){
     @PostMapping()
-    fun createTodo(@RequestBody createTodoRequest: TodoCreateRequest): ResponseEntity<TodoSimpleResponse> {
+    fun createTodo(@RequestBody createTodoRequest: TodoRequest): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(todoService.createTodo(createTodoRequest))
@@ -64,10 +63,10 @@ public class TodoController (
     @PutMapping("/{todoId}")
     fun updateTodo(
         @PathVariable todoId: Long,
-        todoUpdateRequest: TodoUpdateRequest
+        todoRequest: TodoRequest
     ): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.updateTodo(todoId, todoUpdateRequest))
+            .body(todoService.updateTodo(todoId, todoRequest))
     }
 }
