@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.todo.controller;
 
 import com.soonyong.todo.domain.todo.dto.TodoRequest
 import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
+import com.soonyong.todo.domain.todo.dto.TodoSearch
 import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.service.TodoService
 import org.springframework.http.HttpStatus
@@ -22,15 +23,11 @@ public class TodoController (
 
     @GetMapping()
     fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoSimpleResponse>> {
-        val orderBy: String? = params.get("order")
-        if(orderBy.equals("ascend") or orderBy.equals("descend")){
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(todoService.getAllTodoList(orderBy!!))
-        }
+        val todoSearch: TodoSearch = TodoSearch(params.get("order"), params.get("member"))
+
         return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(null)
+            .status(HttpStatus.OK)
+            .body(todoService.getAllTodoList(todoSearch))
     }
 
     @GetMapping("/{todoId}")
@@ -39,8 +36,8 @@ public class TodoController (
             .status(HttpStatus.OK)
             .body(
                 todoService
-                .getTodoById(todoId)
-                .toDetailResponse()
+                    .getTodoById(todoId)
+                    .toDetailResponse()
             )
     }
 

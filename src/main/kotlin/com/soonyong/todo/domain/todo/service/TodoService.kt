@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.todo.service;
 
 import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.TodoRequest
+import com.soonyong.todo.domain.todo.dto.TodoSearch
 import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.model.Todo
 import com.soonyong.todo.domain.todo.repository.TodoRepository
@@ -30,8 +31,8 @@ public class TodoService (
         ).toSimpleResponse()
     }
 
-    fun getAllTodoList(orderBy: String): List<TodoSimpleResponse> {
-        if (orderBy.equals("descend")) {
+    fun getAllTodoList(todoSearch: TodoSearch): List<TodoSimpleResponse> {
+        if (todoSearch.order.equals("descend")) {
             return todoRepository.findAllByOrderByCreatedAtDesc().map { it.toSimpleResponse() }
         }
         return todoRepository.findAllByOrderByCreatedAt().map { it.toSimpleResponse() }
