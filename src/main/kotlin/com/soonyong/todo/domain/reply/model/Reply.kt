@@ -1,6 +1,7 @@
 package com.soonyong.todo.domain.reply.model;
 
 import com.soonyong.todo.domain.member.model.Member
+import com.soonyong.todo.domain.reply.dto.ReplyRequest
 import com.soonyong.todo.domain.reply.dto.ReplyResponse
 import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.model.Todo
@@ -25,18 +26,18 @@ class Reply {
     var content: String? = null
 
     companion object {
-        fun createReply(member: Member, todo: Todo, content: String): Reply {
+        fun createReply(member: Member, todo: Todo, replyRequest: ReplyRequest): Reply {
             val reply: Reply = Reply()
             reply.member = member
             reply.todo = todo
-            reply.content = content
+            reply.content = replyRequest.content
             return reply
         }
     }
 
-    fun updateReply(content: String?): Reply{
-        if(content != null){
-            this.content = content
+    fun updateReply(replyRequest: ReplyRequest): Reply{
+        if(replyRequest.content != null){
+            this.content = replyRequest.content
         }
         return this
     }
