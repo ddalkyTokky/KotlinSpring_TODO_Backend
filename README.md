@@ -65,7 +65,7 @@ ALTER TABLE `reply` ADD FOREIGN KEY (`todo_id`) REFERENCES `todo` (`id`);
 
 # 4. API (1.0.0)
 ## 4-1. Todo API
-![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/cde4ed35-dc88-4c95-b6de-65abc87e6a49)
+![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/bf91b655-2786-4ed1-8441-e902f7de252d)
 ## 4-2. Reply API
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/4a5b5cb6-cd94-482e-a2ba-713d9953e196)
 ## 4-3. User API
