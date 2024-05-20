@@ -20,17 +20,6 @@ public class TodoController (
             .body(todoService.createTodo(createTodoRequest))
     }
 
-    @GetMapping("/{todoId}")
-    fun getTodo(@PathVariable todoId: Long): ResponseEntity<TodoDetailResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(
-                todoService
-                .getTodoById(todoId)
-                .toDetailResponse()
-            )
-    }
-
     @GetMapping()
     fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoSimpleResponse>> {
         val orderBy: String? = params.get("order")
@@ -44,20 +33,15 @@ public class TodoController (
             .body(null)
     }
 
-    @DeleteMapping("/{todoId}")
-    fun deleteTodo(
-        @PathVariable todoId: Long
-    ): ResponseEntity<Unit> {
-        return ResponseEntity
-            .status(HttpStatus.NO_CONTENT)
-            .body(todoService.deleteTodo(todoId))
-    }
-
-    @PatchMapping("/{todoId}")
-    fun finishTodo(@PathVariable todoId: Long): ResponseEntity<TodoSimpleResponse> {
+    @GetMapping("/{todoId}")
+    fun getTodo(@PathVariable todoId: Long): ResponseEntity<TodoDetailResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.finishTodo(todoId))
+            .body(
+                todoService
+                .getTodoById(todoId)
+                .toDetailResponse()
+            )
     }
 
     @PutMapping("/{todoId}")
@@ -68,5 +52,21 @@ public class TodoController (
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.updateTodo(todoId, todoRequest))
+    }
+
+    @PatchMapping("/{todoId}")
+    fun finishTodo(@PathVariable todoId: Long): ResponseEntity<TodoSimpleResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(todoService.finishTodo(todoId))
+    }
+
+    @DeleteMapping("/{todoId}")
+    fun deleteTodo(
+        @PathVariable todoId: Long
+    ): ResponseEntity<Unit> {
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .body(todoService.deleteTodo(todoId))
     }
 }
