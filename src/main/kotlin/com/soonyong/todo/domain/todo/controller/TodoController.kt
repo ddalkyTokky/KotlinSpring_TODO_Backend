@@ -9,12 +9,12 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@RequestMapping("/todo")
+@RequestMapping("/todos")
 @RestController
 public class TodoController (
     private val todoService: TodoService
 ){
-    @PostMapping("/new")
+    @PostMapping()
     fun createTodo(@RequestBody createTodoRequest: TodoCreateRequest): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
@@ -32,7 +32,7 @@ public class TodoController (
             )
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoSimpleResponse>> {
         val orderBy: String? = params.get("order")
         if(orderBy.equals("ascend") or orderBy.equals("descend")){
@@ -54,14 +54,14 @@ public class TodoController (
             .body(todoService.deleteTodo(todoId))
     }
 
-    @PatchMapping("/{todoId}/done")
+    @PatchMapping("/{todoId}")
     fun finishTodo(@PathVariable todoId: Long): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.finishTodo(todoId))
     }
 
-    @PatchMapping("/{todoId}/edit")
+    @PutMapping("/{todoId}")
     fun updateTodo(
         @PathVariable todoId: Long,
         todoUpdateRequest: TodoUpdateRequest

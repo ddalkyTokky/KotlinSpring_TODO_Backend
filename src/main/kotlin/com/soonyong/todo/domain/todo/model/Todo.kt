@@ -2,7 +2,6 @@ package com.soonyong.todo.domain.todo.model
 
 import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
-import com.soonyong.todo.domain.reply.dto.ReplyResponse
 import com.soonyong.todo.domain.reply.model.Reply
 import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
