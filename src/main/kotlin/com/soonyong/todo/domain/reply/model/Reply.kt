@@ -45,6 +45,7 @@ class Reply {
 
     fun toResponse(): ReplyResponse {
         return ReplyResponse(
+            this.todo?.title,
             this.member?.name,
             this.content
         )
