@@ -130,23 +130,23 @@ Assert.isTrue(
 
 ## 5-3. Null-able 을 기본으로 채용.
 Java의 변수가 항상 Null을 허용하는 것처럼, 모든 변수를 가급적이면 Null 허용 변수로 사용키로 함.                     
-이에 따라 Request의 일부 내용이 누락된 것을 허용하고, Entity 와 GeneralExceptionHandler 단에서 @Valid 검사를 사용하기로 함.                   
+이에 따라 Request의 일부 내용이 누락된 것을 허용하고, [Entity](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L25) 와 [GlobalExceptionHandler](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/infra/exception/GlobalExceptionHandler.kt#L27) 단에서 @Valid 검사를 사용하기로 함.                   
 오류가 발생하는 부분을 한 곳으로 통합 수 있어서 편함.                   
                    
 ```
 @ExceptionHandler(IllegalArgumentException::class)
-    fun handleIllegalArgumentException(e: IllegalArgumentException): ResponseEntity<ErrorResponse> {
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(ErrorResponse(e.message))
-    }
+fun handleIllegalArgumentException(e: IllegalArgumentException): ResponseEntity<ErrorResponse> {
+return ResponseEntity
+    .status(HttpStatus.BAD_REQUEST)
+    .body(ErrorResponse(e.message))
+}
 
-    @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolationException(e: ConstraintViolationException): ResponseEntity<List<String>> {
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(e.constraintViolations.map {it.message})
-    }
+@ExceptionHandler(ConstraintViolationException::class)
+fun handleConstraintViolationException(e: ConstraintViolationException): ResponseEntity<List<String>> {
+return ResponseEntity
+    .status(HttpStatus.BAD_REQUEST)
+    .body(e.constraintViolations.map {it.message})
+}
 ```
                    
 이젠 대체 왜 Kotlin Null-able 변수 기능이 있는지도 모르겠음.. TypeMismatch의 주범인 데다가, 실직적으로 Not Null 변수타입으로 선언해봤자 얻는 이득이 크지도 않음..                   
