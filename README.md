@@ -150,9 +150,3 @@ return ResponseEntity
 ```
                    
 이젠 대체 왜 Kotlin Null-able 변수 기능이 있는지도 모르겠음.. TypeMismatch의 주범인 데다가, 실직적으로 Not Null 변수타입으로 선언해봤자 얻는 이득이 크지도 않음..                   
-오히려 아래와 같은 코드 작성만 불가해짐..                   
-                   
-```
-// Error!! str could be null. plz add ? or !!
-if(str.isBlank())
-```
