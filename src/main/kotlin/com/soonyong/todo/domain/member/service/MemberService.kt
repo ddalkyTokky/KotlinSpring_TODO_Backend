@@ -22,7 +22,7 @@ class MemberService (
     }
 
     @Transactional
-    fun createReply(memberReqeust: MemberRequest): MemberResponse {
+    fun createMember(memberReqeust: MemberRequest): MemberResponse {
         return memberRepository.save(
             Member.createMember(
                 memberReqeust.name,
