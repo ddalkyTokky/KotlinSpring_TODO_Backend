@@ -130,7 +130,7 @@ Assert.isTrue(
 
 ## 5-3. Null-able 을 기본으로 채용.
 Java의 변수가 항상 Null을 허용하는 것처럼, 모든 변수를 가급적이면 Null 허용 변수로 사용키로 함.                     
-이에 따라 Request의 일부 내용이 누락된 것을 허용하고, [Entity](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L25) 와 [GlobalExceptionHandler](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/infra/exception/GlobalExceptionHandler.kt#L27) 단에서 @Valid 검사를 사용하기로 함.                   
+이에 따라 HTTP Request의 일부 내용이 누락된 것을 허용하고, [Entity](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L25) 와 [GlobalExceptionHandler](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/infra/exception/GlobalExceptionHandler.kt#L27) 단에서 @Valid 검사를 사용하기로 함.                   
 오류가 발생하는 부분을 한 곳으로 통합 수 있어서 편함.                   
                    
 ```
