@@ -1,5 +1,6 @@
 package com.soonyong.todo.domain.member.service
 
+import com.soonyong.todo.domain.member.dto.MemberRequest
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,10 +16,10 @@ class MemberServiceTest () {
     @Test
     @Rollback(false)
     fun memberPasswordLengthTest() {
-        memberService.
-            Member.createMember(
-                "Lee Soon Yong",
-                "he"
+        memberService.createMember(
+            MemberRequest(
+                "name",
+                "short"
             )
         )
     }
