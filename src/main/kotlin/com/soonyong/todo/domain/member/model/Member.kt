@@ -1,5 +1,6 @@
 package com.soonyong.todo.domain.member.model
 
+import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.dto.MemberResponse
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
@@ -23,10 +24,10 @@ class Member {
     var pw: String? = null
 
     companion object {
-        fun createMember(name: String, pw: String): Member {
+        fun createMember(memberRequest: MemberRequest): Member {
             val member: Member = Member()
-            member.name = name
-            member.pw = pw
+            member.name = memberRequest.name
+            member.pw = memberRequest.pw
             return member
         }
     }

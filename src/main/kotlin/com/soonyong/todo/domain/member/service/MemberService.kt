@@ -25,8 +25,7 @@ class MemberService (
     fun createMember(memberReqeust: MemberRequest): MemberResponse {
         return memberRepository.save(
             Member.createMember(
-                memberReqeust.name,
-                memberReqeust.pw
+                memberReqeust
             )
         ).toResponse()
     }
