@@ -7,6 +7,7 @@ import com.soonyong.todo.domain.todo.dto.TodoRequest
 import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
 import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import jakarta.persistence.*
+import jakarta.validation.constraints.NotBlank
 import lombok.Getter
 
 @Entity
@@ -20,9 +21,11 @@ class Todo(): CreatedAtEntity() {
     @JoinColumn(name = "member_id")
     var member: Member? = null
 
+    @NotBlank(message = "title cannot be blank")
     @Column(nullable = false, length = 200)
     var title: String? = null
 
+    @NotBlank(message = "content cannot be blank")
     @Column(nullable = false, length = 1000)
     var content: String? = null
 

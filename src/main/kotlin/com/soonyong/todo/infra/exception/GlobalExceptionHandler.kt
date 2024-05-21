@@ -1,6 +1,7 @@
 package com.soonyong.todo.infra.exception
 
 import com.soonyong.todo.infra.exception.dto.ErrorResponse
+import jakarta.validation.ConstraintViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -20,5 +21,12 @@ class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
             .body(ErrorResponse(e.message))
+    }
+
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun handleConstraintViolationException(e: ConstraintViolationException): ResponseEntity<List<String>> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(e.constraintViolations.map {it.message})
     }
 }
