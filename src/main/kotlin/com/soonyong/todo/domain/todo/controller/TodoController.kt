@@ -7,6 +7,7 @@ import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.service.TodoService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.util.Assert
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/todos")
@@ -25,14 +26,22 @@ public class TodoController (
     fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoSimpleResponse>?> {
         val todoSearch: TodoSearch = TodoSearch(params.get("order"), params.get("member"))
 
-        if(todoSearch.order.equals("descend") || todoSearch.order.equals("ascend") || (todoSearch.order == null)){
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(todoService.getAllTodoList(todoSearch))
-        }
+        Assert.isTrue(
+            todoSearch.order.equals("descend") ||
+                    todoSearch.order.equals("ascend") ||
+                    (todoSearch.order == null),
+            "BAD_REQUEST from query: order has to be one of (descend, ascend)"
+        )
+
+        Assert.isTrue(
+            (todoSearch.member?.isBlank() == false) ||
+                    (todoSearch.member == null),
+            "BAD_REQUEST from query: member should not be Blank"
+        )
+
         return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(null)
+            .status(HttpStatus.OK)
+            .body(todoService.getAllTodoList(todoSearch))
     }
 
     @GetMapping("/{todoId}")
