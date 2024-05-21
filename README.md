@@ -77,6 +77,8 @@ ALTER TABLE `reply` ADD FOREIGN KEY (`todo_id`) REFERENCES `todo` (`id`);
 
 # 5. 코드 특징
 예제 코드와 몇 가지 다른 점이 존재한다.
+
+## 5-1. Entity 생성 수정 전략
 Entity Class Property 기능을 사용하지 않고, companion 등을 활용한 [독자적인 생성 및 수정 패턴](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/Step1/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L32)을 사용햇다.
 
 ```
@@ -108,4 +110,20 @@ fun updateTodo(todoRequest: TodoRequest): Todo{
         }
         return this
     }
+```
+## 5-2. Assert 도입
+쿼리문 검증을 [Assert](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/controller/TodoController.kt#29)로 진행함.
+```
+Assert.isTrue(
+    todoSearch.order.equals("descend") ||
+	    todoSearch.order.equals("ascend") ||
+	    (todoSearch.order == null),
+    "BAD_REQUEST from query: order has to be one of (descend, ascend)"
+)
+
+Assert.isTrue(
+    (todoSearch.member?.isBlank() == false) ||
+	    (todoSearch.member == null),
+    "BAD_REQUEST from query: member should not be Blank"
+)
 ```
