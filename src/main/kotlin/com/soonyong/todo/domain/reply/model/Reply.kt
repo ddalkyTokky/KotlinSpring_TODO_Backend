@@ -6,6 +6,7 @@ import com.soonyong.todo.domain.reply.dto.ReplyResponse
 import com.soonyong.todo.domain.todo.model.Todo
 import com.soonyong.todo.domain.todo.model.TodoStatus
 import jakarta.persistence.*
+import jakarta.validation.constraints.NotBlank
 
 @Entity
 class Reply {
@@ -21,6 +22,7 @@ class Reply {
     @JoinColumn(name = "todo_id")
     var todo: Todo? = null
 
+    @NotBlank(message = "content cannot be blank")
     @Column(nullable = false)
     var content: String? = null
 
