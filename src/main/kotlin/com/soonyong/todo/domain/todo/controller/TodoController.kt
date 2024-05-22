@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/todos")
 @RestController
-public class TodoController (
+class TodoController (
     private val todoService: TodoService
 ){
     @PostMapping()
