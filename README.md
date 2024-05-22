@@ -40,7 +40,7 @@ _**- DBMS DDL 단에서 Cascade 옵션을 걸었기에 문제없음.**_
 CREATE TABLE `member` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR(16) NOT NULL UNIQUE,
-	`pw` VARCHAR(32) NOT NULL
+	`pw` VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE `todo` (
