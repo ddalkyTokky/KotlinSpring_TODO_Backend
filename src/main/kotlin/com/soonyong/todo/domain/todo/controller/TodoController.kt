@@ -3,6 +3,7 @@ package com.soonyong.todo.domain.todo.controller;
 import com.soonyong.todo.domain.todo.dto.*
 import com.soonyong.todo.domain.todo.service.TodoService
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.Assert
@@ -21,9 +22,13 @@ public class TodoController (
     }
 
     @GetMapping()
-    fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<List<TodoSimpleResponse>?> {
-        val todoSearch: TodoSearch = TodoSearch(params.get("order"), params.get("member"))
-
+    fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<Page<TodoSimpleResponse>?> {
+        val todoSearch: TodoSearch = TodoSearch(
+            params.get("order"),
+            params.get("member"),
+            params.get("page")?.toLong(),
+            params.get("page-size")?.toLong()
+        )
         Assert.isTrue(
             todoSearch.order.equals("descend") ||
                     todoSearch.order.equals("ascend") ||

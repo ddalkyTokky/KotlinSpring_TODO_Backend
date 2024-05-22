@@ -7,6 +7,8 @@ import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.model.Todo
 import com.soonyong.todo.domain.todo.repository.TodoRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional
@@ -31,25 +33,46 @@ public class TodoService (
         ).toSimpleResponse()
     }
 
-    fun getAllTodoList(todoSearch: TodoSearch): List<TodoSimpleResponse>? {
+    fun getAllTodoList(todoSearch: TodoSearch): Page<TodoSimpleResponse>? {
         if (todoSearch.order.equals("ascend") || (todoSearch.order == null)) {
             if (todoSearch.member == null) {
                 return todoRepository
-                    .findAllByOrderByCreatedAtAsc()
+                    .findAllByOrderByCreatedAtAsc(
+                        PageRequest.of(
+                            todoSearch.page?.toInt() ?: 0,
+                            todoSearch.pageSize?.toInt() ?: 10
+                        )
+                    )
                     .map { it.toSimpleResponse() }
             }
             return todoRepository
-                .findAllByMemberNameOrderByCreatedAtAsc(todoSearch.member)
+                .findAllByMemberNameOrderByCreatedAtAsc(
+                    todoSearch.member,
+                    PageRequest.of(
+                        todoSearch.page?.toInt() ?: 0,
+                        todoSearch.pageSize?.toInt() ?: 10
+                    )
+                )
                 .map { it.toSimpleResponse() }
         } else if (todoSearch.order.equals("descend")) {
             if (todoSearch.member == null) {
                 return todoRepository
-                    .findAllByOrderByCreatedAtDesc()
+                    .findAllByOrderByCreatedAtDesc(
+                        PageRequest.of(
+                            todoSearch.page?.toInt() ?: 0,
+                            todoSearch.pageSize?.toInt() ?: 10
+                        )
+                    )
                     .map { it.toSimpleResponse() }
             }
             return todoRepository
-                .findAllByMemberNameOrderByCreatedAtDesc(todoSearch.member)
-                .map { it.toSimpleResponse() }
+                .findAllByMemberNameOrderByCreatedAtDesc(
+                    todoSearch.member,
+                    PageRequest.of(
+                        todoSearch.page?.toInt() ?: 0,
+                        todoSearch.pageSize?.toInt() ?: 10
+                    )
+                ).map { it.toSimpleResponse() }
         }
         return null
     }
