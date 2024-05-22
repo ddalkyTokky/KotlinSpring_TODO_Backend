@@ -1,9 +1,10 @@
 package com.soonyong.todo.domain.todo.service;
 
 import com.soonyong.todo.domain.member.service.MemberService
-import com.soonyong.todo.domain.todo.dto.TodoRequest
+import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoSearch
 import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
+import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import com.soonyong.todo.domain.todo.model.Todo
 import com.soonyong.todo.domain.todo.repository.TodoRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
@@ -22,7 +23,7 @@ public class TodoService (
     }
 
     @Transactional
-    fun createTodo(todoRequest: TodoRequest): TodoSimpleResponse {
+    fun createTodo(todoRequest: TodoCreateRequest): TodoSimpleResponse {
         return todoRepository.save(
             Todo.createTodo(
                 todoRequest,
@@ -67,8 +68,8 @@ public class TodoService (
     }
 
     @Transactional
-    fun updateTodo(todoId: Long, todoRequest: TodoRequest): TodoSimpleResponse {
+    fun updateTodo(todoId: Long, todoUpdateRequest: TodoUpdateRequest): TodoSimpleResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-        return todo.updateTodo(todoRequest).toSimpleResponse()
+        return todo.updateTodo(todoUpdateRequest).toSimpleResponse()
     }
 }

@@ -3,12 +3,11 @@ package com.soonyong.todo.domain.todo.model
 import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.reply.model.Reply
-import com.soonyong.todo.domain.todo.dto.TodoRequest
+import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
 import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
 import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
+import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import jakarta.persistence.*
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Size
 import lombok.Getter
 
 @Entity
@@ -22,13 +21,9 @@ class Todo(): CreatedAtEntity() {
     @JoinColumn(name = "member_id")
     var member: Member? = null
 
-    @Size(max = 200, message = "title length should be shorter than 200")
-    @NotBlank(message = "title cannot be blank")
     @Column(nullable = false, length = 200)
     var title: String? = null
 
-    @Size(max = 1000, message = "content length should be shorter than 1000")
-    @NotBlank(message = "content cannot be blank")
     @Column(nullable = false, length = 1000)
     var content: String? = null
 
@@ -41,7 +36,7 @@ class Todo(): CreatedAtEntity() {
 
     companion object{
         fun createTodo(
-            todoRequest: TodoRequest,
+            todoRequest: TodoCreateRequest,
             member: Member
             ): Todo {
             val todo: Todo = Todo()
@@ -58,12 +53,12 @@ class Todo(): CreatedAtEntity() {
         return this
     }
 
-    fun updateTodo(todoRequest: TodoRequest): Todo{
-        if(todoRequest.title != null){
-            this.title = todoRequest.title
+    fun updateTodo(todoUpdateRequest: TodoUpdateRequest): Todo{
+        if(todoUpdateRequest.title?.isBlank() == false){
+            this.title = todoUpdateRequest.title
         }
-        if(todoRequest.content != null) {
-            this.content = todoRequest.content
+        if(todoUpdateRequest.content?.isBlank() == false) {
+            this.content = todoUpdateRequest.content
         }
         return this
     }

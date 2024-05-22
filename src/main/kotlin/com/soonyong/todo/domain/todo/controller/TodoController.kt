@@ -1,10 +1,8 @@
 package com.soonyong.todo.domain.todo.controller;
 
-import com.soonyong.todo.domain.todo.dto.TodoRequest
-import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
-import com.soonyong.todo.domain.todo.dto.TodoSearch
-import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
+import com.soonyong.todo.domain.todo.dto.*
 import com.soonyong.todo.domain.todo.service.TodoService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.Assert
@@ -16,7 +14,7 @@ public class TodoController (
     private val todoService: TodoService
 ){
     @PostMapping()
-    fun createTodo(@RequestBody createTodoRequest: TodoRequest): ResponseEntity<TodoSimpleResponse> {
+    fun createTodo(@RequestBody @Valid createTodoRequest: TodoCreateRequest): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(todoService.createTodo(createTodoRequest))
@@ -58,11 +56,11 @@ public class TodoController (
     @PutMapping("/{todoId}")
     fun updateTodo(
         @PathVariable todoId: Long,
-        todoRequest: TodoRequest
+        @RequestBody @Valid todoUpdateRequest: TodoUpdateRequest
     ): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.updateTodo(todoId, todoRequest))
+            .body(todoService.updateTodo(todoId, todoUpdateRequest))
     }
 
     @PatchMapping("/{todoId}")
