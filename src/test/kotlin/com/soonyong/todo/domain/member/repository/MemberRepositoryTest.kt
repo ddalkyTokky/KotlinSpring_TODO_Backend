@@ -1,5 +1,6 @@
 package com.soonyong.todo.domain.member.repository
 
+import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.model.Member
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,8 +19,10 @@ class MemberRepositoryTest () {
     fun memberCreateTest() {
         memberRepository.save(
             Member.createMember(
+                MemberRequest(
                 "Lee Soon Yong",
                 "helloworld"
+                )
             )
         )
     }

@@ -14,12 +14,9 @@ class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    @Size(max = 16, message = "name length should be shorter than 16")
-    @NotBlank(message = "name cannot be Blank")
     @Column(unique = true, nullable = false, length = 16)
     var name: String? = null
 
-    @Size(min = 8, max = 32, message = "password length should be 8 ~ 32")
     @Column(nullable = false, length = 32)
     var pw: String? = null
 

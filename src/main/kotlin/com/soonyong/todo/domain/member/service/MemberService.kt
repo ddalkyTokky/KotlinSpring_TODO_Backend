@@ -4,9 +4,6 @@ import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.dto.MemberResponse
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.member.repository.MemberRepository
-import com.soonyong.todo.domain.reply.dto.ReplyRequest
-import com.soonyong.todo.domain.reply.dto.ReplyResponse
-import com.soonyong.todo.domain.reply.model.Reply
 import com.soonyong.todo.infra.exception.ModelNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
