@@ -29,8 +29,9 @@ class Member {
         }
     }
 
-    fun updateName(name: String){
-        this.name = name
+    fun updateMember(memberRequest: MemberRequest){
+        this.name = memberRequest.name
+        this.pw = memberRequest.pw
     }
 
     fun toResponse(): MemberResponse {

@@ -3,10 +3,9 @@ package com.soonyong.todo.domain.todo.model
 import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.reply.model.Reply
-import com.soonyong.todo.domain.todo.dto.TodoCreateRequest
+import com.soonyong.todo.domain.todo.dto.TodoRequest
 import com.soonyong.todo.domain.todo.dto.TodoDetailResponse
 import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
-import com.soonyong.todo.domain.todo.dto.TodoUpdateRequest
 import jakarta.persistence.*
 import lombok.Getter
 
@@ -36,7 +35,7 @@ class Todo(): CreatedAtEntity() {
 
     companion object{
         fun createTodo(
-            todoRequest: TodoCreateRequest,
+            todoRequest: TodoRequest,
             member: Member
             ): Todo {
             val todo: Todo = Todo()
@@ -53,13 +52,9 @@ class Todo(): CreatedAtEntity() {
         return this
     }
 
-    fun updateTodo(todoUpdateRequest: TodoUpdateRequest): Todo{
-        if(todoUpdateRequest.title?.isBlank() == false){
-            this.title = todoUpdateRequest.title
-        }
-        if(todoUpdateRequest.content?.isBlank() == false) {
-            this.content = todoUpdateRequest.content
-        }
+    fun updateTodo(todoRequest: TodoRequest): Todo{
+        this.title = todoRequest.title
+        this.content = todoRequest.content
         return this
     }
 

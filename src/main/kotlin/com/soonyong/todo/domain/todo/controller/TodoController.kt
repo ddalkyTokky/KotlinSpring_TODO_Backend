@@ -14,7 +14,7 @@ public class TodoController (
     private val todoService: TodoService
 ){
     @PostMapping()
-    fun createTodo(@RequestBody @Valid createTodoRequest: TodoCreateRequest): ResponseEntity<TodoSimpleResponse> {
+    fun createTodo(@RequestBody @Valid createTodoRequest: TodoRequest): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(todoService.createTodo(createTodoRequest))
@@ -56,11 +56,11 @@ public class TodoController (
     @PutMapping("/{todoId}")
     fun updateTodo(
         @PathVariable todoId: Long,
-        @RequestBody @Valid todoUpdateRequest: TodoUpdateRequest
+        @RequestBody @Valid todoRequest: TodoRequest
     ): ResponseEntity<TodoSimpleResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.updateTodo(todoId, todoUpdateRequest))
+            .body(todoService.updateTodo(todoId, todoRequest))
     }
 
     @PatchMapping("/{todoId}")

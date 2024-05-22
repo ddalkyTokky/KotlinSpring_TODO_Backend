@@ -35,9 +35,7 @@ class Reply {
     }
 
     fun updateReply(replyRequest: ReplyRequest): Reply{
-        if(replyRequest.content != null){
-            this.content = replyRequest.content
-        }
+        this.content = replyRequest.content
         return this
     }
 
