@@ -6,14 +6,18 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import com.soonyong.todo.domain.reply.dto.ReplyResponse
+import jakarta.validation.Valid
 
 @RequestMapping("/reply")
 @RestController
 class ReplyController (
     private val replyService: ReplyService
-){
+) {
     @PostMapping("{todoId}")
-    fun createReply(@PathVariable todoId: Long, @RequestBody replyRequest: ReplyRequest): ResponseEntity<ReplyResponse> {
+    fun createReply(
+        @PathVariable todoId: Long,
+        @RequestBody @Valid replyRequest: ReplyRequest
+    ): ResponseEntity<ReplyResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(replyService.createReply(todoId, replyRequest))
@@ -22,7 +26,7 @@ class ReplyController (
     @PutMapping("/{replyId}")
     fun updateReply(
         @PathVariable replyId: Long,
-        replyRequest: ReplyRequest
+        @RequestBody @Valid replyRequest: ReplyRequest
     ): ResponseEntity<ReplyResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
