@@ -9,9 +9,11 @@ class MemberRequest(
     @field:NotBlank(message = "name cannot be Blank")
     val name: String,
 
-    @Size(min = 8, max = 16, message = "password length should be 8 ~ 16")
-    @NotBlank(message = "pw cannot be Blank")
-    pw: String
+    @field:Size(min = 8, max = 16, message = "password length should be 8 ~ 16")
+    @field:NotBlank(message = "pw cannot be Blank")
+    val pw: String
 ) {
-    val pw: String = sha256(pw)
+    fun toSha256(): String{
+        return sha256(pw)
+    }
 }

@@ -22,7 +22,8 @@ class MemberService (
     fun createMember(memberReqeust: MemberRequest): MemberResponse {
         return memberRepository.save(
             Member.createMember(
-                memberReqeust
+                memberReqeust.name,
+                memberReqeust.toSha256()
             )
         ).toResponse()
     }

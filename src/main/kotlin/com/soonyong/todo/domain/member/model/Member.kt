@@ -21,10 +21,10 @@ class Member {
     var pw: String? = null
 
     companion object {
-        fun createMember(memberRequest: MemberRequest): Member {
+        fun createMember(name: String, pw: String): Member {
             val member: Member = Member()
-            member.name = memberRequest.name
-            member.pw = memberRequest.pw
+            member.name = name
+            member.pw = pw
             return member
         }
     }
