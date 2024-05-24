@@ -1,8 +1,8 @@
 package com.soonyong.todo.domain.todo.dto
 
 data class TodoSearch (
-    val order: String?,
+    val order: String,
     val member: String?,
-    val page: Long?,
-    val pageSize: Long?
+    val page: Int,
+    val pageSize: Int
 )

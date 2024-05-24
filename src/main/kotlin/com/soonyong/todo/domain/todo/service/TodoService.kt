@@ -34,13 +34,13 @@ public class TodoService (
     }
 
     fun getAllTodoList(todoSearch: TodoSearch): Page<TodoSimpleResponse>? {
-        if (todoSearch.order.equals("ascend") || (todoSearch.order == null)) {
+        if (todoSearch.order.equals("ascend")) {
             if (todoSearch.member == null) {
                 return todoRepository
                     .findAllByOrderByCreatedAtAsc(
                         PageRequest.of(
-                            todoSearch.page?.toInt() ?: 0,
-                            todoSearch.pageSize?.toInt() ?: 10
+                            todoSearch.page,
+                            todoSearch.pageSize
                         )
                     )
                     .map { it.toSimpleResponse() }
@@ -49,8 +49,8 @@ public class TodoService (
                 .findAllByMemberNameOrderByCreatedAtAsc(
                     todoSearch.member,
                     PageRequest.of(
-                        todoSearch.page?.toInt() ?: 0,
-                        todoSearch.pageSize?.toInt() ?: 10
+                        todoSearch.page,
+                        todoSearch.pageSize
                     )
                 )
                 .map { it.toSimpleResponse() }
@@ -59,8 +59,8 @@ public class TodoService (
                 return todoRepository
                     .findAllByOrderByCreatedAtDesc(
                         PageRequest.of(
-                            todoSearch.page?.toInt() ?: 0,
-                            todoSearch.pageSize?.toInt() ?: 10
+                            todoSearch.page,
+                            todoSearch.pageSize
                         )
                     )
                     .map { it.toSimpleResponse() }
@@ -69,8 +69,8 @@ public class TodoService (
                 .findAllByMemberNameOrderByCreatedAtDesc(
                     todoSearch.member,
                     PageRequest.of(
-                        todoSearch.page?.toInt() ?: 0,
-                        todoSearch.pageSize?.toInt() ?: 10
+                        todoSearch.page,
+                        todoSearch.pageSize
                     )
                 ).map { it.toSimpleResponse() }
         }

@@ -24,15 +24,14 @@ class TodoController (
     @GetMapping()
     fun getTodoList(@RequestParam params: Map<String, String>): ResponseEntity<Page<TodoSimpleResponse>?> {
         val todoSearch: TodoSearch = TodoSearch(
-            params.get("order"),
+            params.get("order") ?: "ascend",
             params.get("member"),
-            params.get("page")?.toLong(),
-            params.get("page-size")?.toLong()
+            params.get("page")?.toInt() ?: 0,
+            params.get("page-size")?.toInt() ?: 10
         )
         Assert.isTrue(
             todoSearch.order.equals("descend") ||
-                    todoSearch.order.equals("ascend") ||
-                    (todoSearch.order == null),
+                    todoSearch.order.equals("ascend"),
             "BAD_REQUEST from query: order has to be one of (descend, ascend)"
         )
 

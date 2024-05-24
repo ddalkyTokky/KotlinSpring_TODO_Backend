@@ -27,6 +27,6 @@ class MemberController (
     fun signin(@RequestBody @Valid memberRequest: MemberRequest): ResponseEntity<String>{
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body("OK")
+            .body(memberService.signin(memberRequest))
     }
 }

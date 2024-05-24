@@ -32,4 +32,8 @@ class MemberService (
             )
         ).toResponse()
     }
+
+    fun signin(memberReqeust: MemberRequest): String {
+        memberRepository.findMemberByName(memberReqeust.name) ?: throw ModelNotFoundException("Member", memberReqeust.name)
+    }
 }
