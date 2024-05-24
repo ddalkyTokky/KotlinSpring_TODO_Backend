@@ -2,14 +2,18 @@ package com.soonyong.todo.domain.member.service
 
 import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.dto.MemberResponse
+import com.soonyong.todo.domain.member.dto.MemberToken
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.member.repository.MemberRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
+import com.soonyong.todo.infra.exception.SignInFailException
 import com.soonyong.todo.infra.security.sha256
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.AuthenticationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Timestamp
 
 @Service
 class MemberService (
@@ -33,7 +37,24 @@ class MemberService (
         ).toResponse()
     }
 
-    fun signin(memberReqeust: MemberRequest): String {
-        memberRepository.findMemberByName(memberReqeust.name) ?: throw ModelNotFoundException("Member", memberReqeust.name)
+    fun signin(memberReqeust: MemberRequest): MemberToken {
+        val member: Member =
+            memberRepository.findMemberByName(memberReqeust.name)
+                ?: throw SignInFailException("member name")
+
+        val expireAt = Timestamp(System.currentTimeMillis() + (1000 * 60 * 30))
+        if(sha256(memberReqeust.pw + member.secret) == member.pw) {
+            return MemberToken(
+                member.id!!,
+                sha256(member.id!!.toString() + member.pw + expireAt.toString()),
+                expireAt
+            )
+        }
+        throw SignInFailException("password")
     }
+
+//    fun tokenValidation(memberToken: MemberToken){
+//
+//        throw TokenExpireException()
+//    }
 }

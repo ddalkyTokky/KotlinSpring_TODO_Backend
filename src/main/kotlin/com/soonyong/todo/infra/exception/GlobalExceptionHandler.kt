@@ -38,4 +38,11 @@ class GlobalExceptionHandler {
             .status(HttpStatus.BAD_REQUEST)
             .body(e.bindingResult.getFieldErrors().map { it.defaultMessage })
     }
+
+    @ExceptionHandler(SignInFailException::class)
+    fun handleSignInFailException(e: SignInFailException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(ErrorResponse(e.message))
+    }
 }

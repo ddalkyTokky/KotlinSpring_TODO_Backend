@@ -2,6 +2,7 @@ package com.soonyong.todo.domain.member.contoller
 
 import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.dto.MemberResponse
+import com.soonyong.todo.domain.member.dto.MemberToken
 import com.soonyong.todo.domain.member.service.MemberService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -24,7 +25,7 @@ class MemberController (
     }
 
     @PostMapping("signin")
-    fun signin(@RequestBody @Valid memberRequest: MemberRequest): ResponseEntity<String>{
+    fun signin(@RequestBody @Valid memberRequest: MemberRequest): ResponseEntity<MemberToken>{
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(memberService.signin(memberRequest))
