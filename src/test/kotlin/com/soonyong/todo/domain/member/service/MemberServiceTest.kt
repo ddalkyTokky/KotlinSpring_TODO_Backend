@@ -15,11 +15,11 @@ class MemberServiceTest () {
 
     @Test
     @Rollback(false)
-    fun memberPasswordLengthTest() {
+    fun memberServiceTest() {
         memberService.createMember(
             MemberRequest(
                 "name",
-                "short"
+                "password"
             )
         )
     }

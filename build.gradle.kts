@@ -31,11 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-	implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
-	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j")
@@ -53,8 +49,6 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "17"
 	}
 }
-
-ext["spring-security.version"]="6.2.4"
 
 tasks.withType<Test> {
 	useJUnitPlatform()

@@ -4,13 +4,11 @@ import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.dto.MemberResponse
 import jakarta.persistence.*
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Size
 import lombok.Getter
 
 @Entity
 @Getter
-class Member: CreatedAtEntity() {
+class Member{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -21,18 +19,17 @@ class Member: CreatedAtEntity() {
     @Column(nullable = false, length = 64)
     var pw: String? = null
 
+    @Column(nullable = false, length = 8)
+    var secret: String? = null
+
     companion object {
-        fun createMember(name: String, pw: String): Member {
+        fun createMember(name: String, pw: String, secret: String): Member {
             val member: Member = Member()
             member.name = name
             member.pw = pw
+            member.secret = secret
             return member
         }
-    }
-
-    fun updateMember(memberRequest: MemberRequest){
-        this.name = memberRequest.name
-        this.pw = memberRequest.pw
     }
 
     fun toResponse(): MemberResponse {
