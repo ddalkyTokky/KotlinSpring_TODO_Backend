@@ -18,12 +18,20 @@ import org.springframework.web.bind.annotation.*
 class TodoController (
     private val todoService: TodoService,
     private val memberService: MemberService
-){
+) {
     @PostMapping()
-    fun createTodo(@RequestBody @Valid createTodoRequest: TodoRequest): ResponseEntity<TodoSimpleResponse> {
+    fun createTodo(
+        @RequestBody @Valid createTodoRequest: TodoRequest,
+        @RequestHeader httpsHeaders: HttpHeaders
+    ): ResponseEntity<TodoSimpleResponse> {
+        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
+
+        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
+        memberService.tokenValidation(memberToken)
+
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(todoService.createTodo(createTodoRequest))
+            .body(todoService.createTodo(createTodoRequest, memberToken.memberId))
     }
 
     @GetMapping()
@@ -65,15 +73,29 @@ class TodoController (
     @PutMapping("/{todoId}")
     fun updateTodo(
         @PathVariable todoId: Long,
-        @RequestBody @Valid todoRequest: TodoRequest
+        @RequestBody @Valid todoRequest: TodoRequest,
+        @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
+        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
+
+        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
+        memberService.tokenValidation(memberToken)
+
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.updateTodo(todoId, todoRequest))
     }
 
     @PatchMapping("/{todoId}")
-    fun finishTodo(@PathVariable todoId: Long): ResponseEntity<TodoSimpleResponse> {
+    fun finishTodo(
+        @PathVariable todoId: Long,
+        @RequestHeader httpsHeaders: HttpHeaders
+    ): ResponseEntity<TodoSimpleResponse> {
+        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
+
+        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
+        memberService.tokenValidation(memberToken)
+
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(todoService.finishTodo(todoId))

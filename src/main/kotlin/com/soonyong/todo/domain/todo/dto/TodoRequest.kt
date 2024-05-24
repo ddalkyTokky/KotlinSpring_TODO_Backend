@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
 data class TodoRequest (
-    val member_id: Long, // TODO 로그인 기능 도입 후 삭제 예정
-
     @field:Size(max = 200, message = "title length should be shorter than 200")
     @field:NotBlank(message = "title cannot be blank")
     val title: String,

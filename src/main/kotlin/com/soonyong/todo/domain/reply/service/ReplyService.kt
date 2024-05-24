@@ -19,11 +19,12 @@ class ReplyService (
 ){
     @Transactional
     fun createReply(todoId: Long,
+                    memberId: Long,
                     replyRequest: ReplyRequest
     ): ReplyResponse {
         return replyRepository.save(
             Reply.createReply(
-                memberService.getMemberById(replyRequest.member_id),
+                memberService.getMemberById(memberId),
                 todoService.getTodoById(todoId),
                 replyRequest
             )

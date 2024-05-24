@@ -24,11 +24,14 @@ public class TodoService (
     }
 
     @Transactional
-    fun createTodo(todoRequest: TodoRequest): TodoSimpleResponse {
+    fun createTodo(
+        todoRequest: TodoRequest,
+        memberId: Long
+    ): TodoSimpleResponse {
         return todoRepository.save(
             Todo.createTodo(
                 todoRequest,
-                memberService.getMemberById(todoRequest.member_id)
+                memberService.getMemberById(memberId)
             )
         ).toSimpleResponse()
     }
