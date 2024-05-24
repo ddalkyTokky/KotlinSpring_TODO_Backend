@@ -7,6 +7,7 @@ import com.soonyong.todo.domain.todo.dto.TodoSimpleResponse
 import com.soonyong.todo.domain.todo.model.Todo
 import com.soonyong.todo.domain.todo.repository.TodoRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
+import com.soonyong.todo.infra.exception.TokenException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -81,20 +82,29 @@ public class TodoService (
     }
 
     @Transactional
-    fun deleteTodo(todoId: Long) {
+    fun deleteTodo(todoId: Long, memberId: Long) {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
+        if(memberId != todo.member!!.id) {
+            throw TokenException("UnAuthorized Access Token")
+        }
         todoRepository.delete(todo)
     }
 
     @Transactional
-    fun finishTodo(todoId: Long): TodoSimpleResponse {
+    fun finishTodo(todoId: Long, memberId: Long): TodoSimpleResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
+        if(memberId != todo.member!!.id) {
+            throw TokenException("UnAuthorized Access Token")
+        }
         return todo.finishTodo().toSimpleResponse()
     }
 
     @Transactional
-    fun updateTodo(todoId: Long, todoRequest: TodoRequest): TodoSimpleResponse {
+    fun updateTodo(todoId: Long, memberId: Long, todoRequest: TodoRequest): TodoSimpleResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
+        if(memberId != todo.member!!.id) {
+            throw TokenException("UnAuthorized Access Token")
+        }
         return todo.updateTodo(todoRequest).toSimpleResponse()
     }
 }

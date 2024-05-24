@@ -83,7 +83,7 @@ class TodoController (
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.updateTodo(todoId, todoRequest))
+            .body(todoService.updateTodo(todoId, memberToken.memberId, todoRequest))
     }
 
     @PatchMapping("/{todoId}")
@@ -98,7 +98,7 @@ class TodoController (
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.finishTodo(todoId))
+            .body(todoService.finishTodo(todoId, memberToken.memberId))
     }
 
     @DeleteMapping("/{todoId}")
@@ -113,6 +113,6 @@ class TodoController (
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(todoService.deleteTodo(todoId))
+            .body(todoService.deleteTodo(todoId, memberToken.memberId))
     }
 }
