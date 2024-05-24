@@ -41,6 +41,7 @@ CREATE TABLE `member` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR(16) NOT NULL UNIQUE,
 	`pw` VARCHAR(64) NOT NULL,
+	`key` VARCHAR(8) NOT NULL,
 	`created_at` timestamp NOT NULL
 );
 
