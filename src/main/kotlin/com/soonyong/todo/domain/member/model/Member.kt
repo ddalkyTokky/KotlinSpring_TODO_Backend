@@ -1,5 +1,6 @@
 package com.soonyong.todo.domain.member.model
 
+import com.soonyong.todo.domain.CreatedAtEntity
 import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.dto.MemberResponse
 import jakarta.persistence.*
@@ -9,7 +10,7 @@ import lombok.Getter
 
 @Entity
 @Getter
-class Member {
+class Member: CreatedAtEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
