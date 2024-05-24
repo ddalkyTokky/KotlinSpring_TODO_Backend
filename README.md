@@ -31,7 +31,7 @@ _**- DBMS DDL 단에서 Cascade 옵션을 걸었기에 문제없음.**_
 4. IoC / DI 에 대해 간략하게 설명해 주세요!               
                   
 # 2. USE CASE
-![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/e619d45f-ade4-415d-bfa3-594e6da3ddff)
+![o_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/18d5166e-6ad8-40df-acb7-61e67fc4f473)
 # 3. DBMS (MYSQL) (1.1.0)
 ## 3-1. Tables
 ![o_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/fe32015a-ef64-436c-8cce-9775755645ec)
