@@ -27,7 +27,7 @@ class MemberService (
 
     @Transactional
     fun createMember(memberReqeust: MemberRequest): MemberResponse {
-        val secret: String = RandomStringUtils.randomAlphabetic(8)
+        val secret: String = RandomStringUtils.randomAlphabetic(256)
         return memberRepository.save(
             Member.createMember(
                 memberReqeust.name,

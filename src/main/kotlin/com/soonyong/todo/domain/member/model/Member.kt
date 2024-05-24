@@ -19,7 +19,7 @@ class Member{
     @Column(nullable = false, length = 64)
     var pw: String? = null
 
-    @Column(nullable = false, length = 8)
+    @Column(nullable = false, length = 256)
     var secret: String? = null
 
     companion object {
