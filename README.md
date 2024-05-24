@@ -1,4 +1,4 @@
-**[[스파르타 코딩클럽] TODO 서버 개발 기획 문서](https://strawberryrabbit.tistory.com/6)**
+![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/40aee744-8778-4003-80ba-2781a236b390)**[[스파르타 코딩클럽] TODO 서버 개발 기획 문서](https://strawberryrabbit.tistory.com/6)**
 # 1. 질문 사항
 
 
@@ -34,13 +34,14 @@ _**- DBMS DDL 단에서 Cascade 옵션을 걸었기에 문제없음.**_
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/e619d45f-ade4-415d-bfa3-594e6da3ddff)
 # 3. DBMS (MYSQL)
 ## 3-1. Tables
-![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/1bcaaa0d-caf6-47cc-b259-aed5a8aa3e60)
+![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/105e096f-a151-4429-888a-0292a40a89ed)
 ## 3-2. DDL
 ```
 CREATE TABLE `member` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR(16) NOT NULL UNIQUE,
-	`pw` VARCHAR(64) NOT NULL
+	`pw` VARCHAR(64) NOT NULL,
+	`created_at` timestamp NOT NULL
 );
 
 CREATE TABLE `todo` (
