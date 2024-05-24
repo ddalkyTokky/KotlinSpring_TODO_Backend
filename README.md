@@ -1,5 +1,5 @@
-**[[스파르타 코딩클럽] TODO 서버 개발 기획 문서](https://strawberryrabbit.tistory.com/6)**
-**[[스파르타 코딩클럽] TODO 서버 로그인 기능](https://strawberryrabbit.tistory.com/12)**
+**[[스파르타 코딩클럽] TODO 서버 개발 기획 문서](https://strawberryrabbit.tistory.com/6)**                     
+**[[스파르타 코딩클럽] TODO 서버 로그인 기능](https://strawberryrabbit.tistory.com/12)**                    
 # 0. 개발 & 테스트 환경
 ## 개발
 - IntelliJ 2024.1 Ultimate
