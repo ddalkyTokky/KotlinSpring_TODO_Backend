@@ -166,7 +166,7 @@ fun sha256(base: String): String {
 ### b. sha256을 기반으로한 [pw저장](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.1.0)/src/main/kotlin/com/soonyong/todo/domain/member/service/MemberService.kt#L30).
 회원가입 후 pw 저장시, 단순 저장이 아닌, random secret key 생성과 해쉬함수 사용을 통해 보안 강화.
 ```
-val secret: String = RandomStringUtils.randomAlphabetic(8)
+val secret: String = RandomStringUtils.randomAlphabetic(256)
 return memberRepository.save(
     Member.createMember(
 	memberReqeust.name,
