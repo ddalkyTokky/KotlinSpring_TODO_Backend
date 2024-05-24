@@ -34,7 +34,7 @@ _**- DBMS DDL 단에서 Cascade 옵션을 걸었기에 문제없음.**_
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/e619d45f-ade4-415d-bfa3-594e6da3ddff)
 # 3. DBMS (MYSQL) (1.1.0)
 ## 3-1. Tables
-![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/9d99d1c9-279c-4b3b-837e-8a38bf3bf23c)
+![o_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/fe32015a-ef64-436c-8cce-9775755645ec)
 ## 3-2. DDL
 ```
 CREATE TABLE `member` (
