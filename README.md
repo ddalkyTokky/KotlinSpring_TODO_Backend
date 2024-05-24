@@ -43,7 +43,7 @@ _**- DBMS DDL 단에서 Cascade 옵션을 걸었기에 문제없음.**_
 **_프레임워크가 담당해주니까 짱 편함. (말 그대로 프레임 워크가 대부분의 의존성을 관리하고, 그 의존 관계가 때에 따라 역전되는 것.)_**
                   
 # 2. USE CASE
-![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/b737ae76-0f9e-48f0-8547-d85f72af3189)
+![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/bcc2cfd9-16fc-41d2-913d-23de396c82f0)
 # 3. DBMS (MYSQL) (1.1.0)
 ## 3-1. Tables
 ![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/33d41d90-6eef-4ca9-8279-357a3ab18437)
