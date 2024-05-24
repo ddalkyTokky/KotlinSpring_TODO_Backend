@@ -80,7 +80,7 @@ ALTER TABLE `reply` ADD FOREIGN KEY (`todo_id`) REFERENCES `todo` (`id`);
 예제 코드와 몇 가지 다른 점이 존재한다.
 
 ## 5-1. Entity 생성 수정 전략
-Entity Class Property 기능을 사용하지 않고, companion 등을 활용한 [독자적인 생성 및 수정 패턴](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L42)을 사용햇다.
+Entity Class Property 기능을 사용하지 않고, companion 등을 활용한 [독자적인 생성 및 수정 패턴](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L36)을 사용햇다.
 
 ```
 companion object{
@@ -113,7 +113,7 @@ fun updateTodo(todoRequest: TodoRequest): Todo{
     }
 ```
 ## 5-2. Assert 도입
-쿼리문 검증을 [Assert](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/controller/TodoController.kt#L29)로 진행함.
+쿼리문 검증을 [Assert](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/controller/TodoController.kt#L45)로 진행함.
 ```
 Assert.isTrue(
     todoSearch.order.equals("descend") ||
@@ -129,23 +129,82 @@ Assert.isTrue(
 )
 ```
 
-## 5-3. Null-able 을 기본으로 채용.
-Java의 변수가 항상 Null을 허용하는 것처럼, 모든 변수를 가급적이면 Null 허용 변수로 사용키로 함.                     
-이에 따라 HTTP Request의 일부 내용이 누락된 것을 허용하고, [Entity](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L25) 와 [GlobalExceptionHandler](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/infra/exception/GlobalExceptionHandler.kt#L27) 단에서 @Valid 검사를 사용하기로 함.                   
-오류가 발생하는 부분을 한 곳으로 통합 수 있어서 편함.                   
-                   
-```
-@ExceptionHandler(IllegalArgumentException::class)
-fun handleIllegalArgumentException(e: IllegalArgumentException): ResponseEntity<ErrorResponse> {
-return ResponseEntity
-    .status(HttpStatus.BAD_REQUEST)
-    .body(ErrorResponse(e.message))
-}
+## 5-3. Token을 직접 만듦.
+처음에는 Spring Security에 대해 공부하다가 볼륨도 크고 비효율적인 스터디가 되어가는 것 같아, 직접 토큰을 만들기로 함.
 
-@ExceptionHandler(ConstraintViolationException::class)
-fun handleConstraintViolationException(e: ConstraintViolationException): ResponseEntity<List<String>> {
-return ResponseEntity
-    .status(HttpStatus.BAD_REQUEST)
-    .body(e.constraintViolations.map {it.message})
+### a. [sha256](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.1.0)/src/main/kotlin/com/soonyong/todo/infra/security/sha256.kt) 함수 생성.
+```
+fun sha256(base: String): String {
+    try {
+        val digest: MessageDigest = MessageDigest.getInstance("SHA-256")
+        val hash: ByteArray = digest.digest(base.toByteArray(charset("UTF-8")))
+        val hexString = StringBuilder()
+        for (i in hash.indices) {
+            val hex = Integer.toHexString(0xff and hash[i].toInt())
+            if (hex.length == 1) hexString.append('0')
+            hexString.append(hex)
+        }
+        return hexString.toString()
+    } catch (ex: Exception) {
+        throw RuntimeException(ex)
+    }
+}
+```
+
+### b. sha256을 기반으로한 [pw저장](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.1.0)/src/main/kotlin/com/soonyong/todo/domain/member/service/MemberService.kt#L30).
+회원가입 후 pw 저장시, 단순 저장이 아닌, random secret key 생성과 해쉬함수 사용을 통해 보안 강화.
+```
+val secret: String = RandomStringUtils.randomAlphabetic(8)
+return memberRepository.save(
+    Member.createMember(
+	memberReqeust.name,
+	sha256(memberReqeust.pw + secret),
+	secret
+    )
+).toResponse()
+```
+
+### c. [MemberToken](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.1.0)/src/main/kotlin/com/soonyong/todo/domain/member/dto/MemberToken.kt)
+```
+data class MemberToken (
+    val memberId: Long,
+    val token: String,
+    val expireAt: LocalDateTime
+)
+```
+
+### d. [토큰 생성](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.1.0)/src/main/kotlin/com/soonyong/todo/domain/member/service/MemberService.kt#L48)
+(member_id, 해쉬화된 pw, 토큰 만료 시간) 을 다시 해쉬화해 토큰 생성.
+expireAt은 현재시간으로 부터 정해진 시간 (현행 30분) 뒤로 설정됨.
+```
+return MemberToken(
+	member.id!!,
+	sha256(member.id!!.toString() + member.pw + expireAt.toString()),
+	expireAt
+    )
+```
+
+### e. [토큰 검증](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.1.0)/src/main/kotlin/com/soonyong/todo/domain/member/service/MemberService.kt#L58)
+header로 받은 토큰을, (토큰의 memberid, DB의 pw, 토큰의 expireAt) 로 재현함.
+재현된 토큰이 받은 토큰과 일치한다면, pass
+또한, 토큰에 담긴 memberid를 통해 권한 확인.
+```
+fun tokenValidation(memberToken: MemberToken) {
+        if (memberToken.expireAt.isBefore(LocalDateTime.now())) {
+            throw TokenException("token expiredAt ${memberToken.expireAt}")
+        }
+
+        val member: Member =
+            memberRepository.findByIdOrNull(memberToken.memberId)
+                ?: throw TokenException("Unvaild Token memberId")
+
+        if(sha256(memberToken.memberId.toString() + member.pw + memberToken.expireAt) != memberToken.token){
+            throw TokenException("Unvaild Token!!")
+        }
+    }
+```
+```
+if(memberId != reply.member!!.id) {
+    throw TokenException("UnAuthorized Access Token")
 }
 ```
