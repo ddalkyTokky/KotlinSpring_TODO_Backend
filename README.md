@@ -1,14 +1,14 @@
 **[[스파르타 코딩클럽] TODO 서버 개발 기획 문서](https://strawberryrabbit.tistory.com/6)**
 # 0. 개발 & 테스트 환경
 ## 개발
-IntelliJ 2024.1 Ultimate
-Spring boot 3.2.5
-java 17
-Mysql 8.3
+- IntelliJ 2024.1 Ultimate
+- Spring boot 3.2.5
+- java 17
+- Mysql 8.3
 
 ## 테스트
-Swagger
-Talend 크롬 확장 프로그램
+- Swagger
+- Talend 크롬 확장 프로그램
 
 # 1. 질문 사항
 
