@@ -7,10 +7,10 @@ import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.member.repository.MemberRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
 import com.soonyong.todo.infra.exception.SignInFailException
+import com.soonyong.todo.infra.exception.TokenException
 import com.soonyong.todo.infra.security.sha256
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.security.core.AuthenticationException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
@@ -43,7 +43,7 @@ class MemberService (
                 ?: throw SignInFailException("member name")
 
         val expireAt = Timestamp(System.currentTimeMillis() + (1000 * 60 * 30))
-        if(sha256(memberReqeust.pw + member.secret) == member.pw) {
+        if (sha256(memberReqeust.pw + member.secret) == member.pw) {
             return MemberToken(
                 member.id!!,
                 sha256(member.id!!.toString() + member.pw + expireAt.toString()),
@@ -53,8 +53,17 @@ class MemberService (
         throw SignInFailException("password")
     }
 
-//    fun tokenValidation(memberToken: MemberToken){
-//
-//        throw TokenExpireException()
-//    }
+    fun tokenValidation(memberToken: MemberToken) {
+        if (memberToken.expireAt.before(Timestamp(System.currentTimeMillis()))) {
+            throw TokenException("token expiredAt ${memberToken.expireAt}")
+        }
+
+        val member: Member =
+            memberRepository.findByIdOrNull(memberToken.memberId)
+                ?: throw TokenException("Unvaild Tokenn!!")
+
+        if(sha256(memberToken.memberId.toString() + member.pw + memberToken.expireAt) != memberToken.token){
+            throw TokenException("Unvaild Tokenn!!")
+        }
+    }
 }

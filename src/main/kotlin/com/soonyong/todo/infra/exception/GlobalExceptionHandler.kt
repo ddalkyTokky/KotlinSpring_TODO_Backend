@@ -1,8 +1,6 @@
 package com.soonyong.todo.infra.exception
 
 import com.soonyong.todo.infra.exception.dto.ErrorResponse
-import jakarta.validation.ConstraintViolationException
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -41,6 +39,13 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(SignInFailException::class)
     fun handleSignInFailException(e: SignInFailException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(ErrorResponse(e.message))
+    }
+
+    @ExceptionHandler(TokenException::class)
+    fun handleTokenExpireException(e: TokenException): ResponseEntity<ErrorResponse> {
         return ResponseEntity
             .status(HttpStatus.UNAUTHORIZED)
             .body(ErrorResponse(e.message))
