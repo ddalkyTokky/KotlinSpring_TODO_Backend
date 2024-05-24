@@ -13,7 +13,7 @@ import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @Service
 class MemberService (
@@ -38,11 +38,13 @@ class MemberService (
     }
 
     fun signin(memberReqeust: MemberRequest): MemberToken {
+        val expireDuration: Int = (60 * 30)
+
         val member: Member =
             memberRepository.findMemberByName(memberReqeust.name)
                 ?: throw SignInFailException("member name")
 
-        val expireAt = Timestamp(System.currentTimeMillis() + (1000 * 60 * 30))
+        val expireAt = LocalDateTime.now().plusSeconds(expireDuration.toLong())
         if (sha256(memberReqeust.pw + member.secret) == member.pw) {
             return MemberToken(
                 member.id!!,
@@ -54,16 +56,16 @@ class MemberService (
     }
 
     fun tokenValidation(memberToken: MemberToken) {
-        if (memberToken.expireAt.before(Timestamp(System.currentTimeMillis()))) {
+        if (memberToken.expireAt.isBefore(LocalDateTime.now())) {
             throw TokenException("token expiredAt ${memberToken.expireAt}")
         }
 
         val member: Member =
             memberRepository.findByIdOrNull(memberToken.memberId)
-                ?: throw TokenException("Unvaild Tokenn!!")
+                ?: throw TokenException("Unvaild Token memberId")
 
         if(sha256(memberToken.memberId.toString() + member.pw + memberToken.expireAt) != memberToken.token){
-            throw TokenException("Unvaild Tokenn!!")
+            throw TokenException("Unvaild Token!!")
         }
     }
 }

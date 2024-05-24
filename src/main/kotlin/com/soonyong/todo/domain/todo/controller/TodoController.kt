@@ -1,9 +1,13 @@
 package com.soonyong.todo.domain.todo.controller;
 
+import com.soonyong.todo.domain.member.dto.MemberToken
+import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.*
 import com.soonyong.todo.domain.todo.service.TodoService
+import com.soonyong.todo.infra.security.tokenParsing
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.Assert
@@ -12,7 +16,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/todos")
 @RestController
 class TodoController (
-    private val todoService: TodoService
+    private val todoService: TodoService,
+    private val memberService: MemberService
 ){
     @PostMapping()
     fun createTodo(@RequestBody @Valid createTodoRequest: TodoRequest): ResponseEntity<TodoSimpleResponse> {
@@ -76,8 +81,14 @@ class TodoController (
 
     @DeleteMapping("/{todoId}")
     fun deleteTodo(
-        @PathVariable todoId: Long
+        @PathVariable todoId: Long,
+        @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<Unit> {
+        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
+
+        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
+        memberService.tokenValidation(memberToken)
+
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .body(todoService.deleteTodo(todoId))
