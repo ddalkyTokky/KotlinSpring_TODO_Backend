@@ -5,6 +5,7 @@ import com.soonyong.todo.domain.member.dto.MemberResponse
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.member.repository.MemberRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
+import com.soonyong.todo.infra.security.sha256
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,7 +24,7 @@ class MemberService (
         return memberRepository.save(
             Member.createMember(
                 memberReqeust.name,
-                memberReqeust.toSha256()
+                sha256(memberReqeust.pw)
             )
         ).toResponse()
     }
