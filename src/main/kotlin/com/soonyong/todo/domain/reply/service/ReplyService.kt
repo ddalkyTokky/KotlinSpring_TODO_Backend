@@ -7,6 +7,7 @@ import com.soonyong.todo.domain.reply.dto.ReplyResponse
 import com.soonyong.todo.domain.reply.model.Reply
 import com.soonyong.todo.domain.todo.service.TodoService
 import com.soonyong.todo.infra.exception.ModelNotFoundException
+import com.soonyong.todo.infra.exception.TokenException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -32,14 +33,24 @@ class ReplyService (
     }
 
     @Transactional
-    fun deleteReply(replyId: Long) {
+    fun deleteReply(replyId: Long, memberId: Long) {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId.toString())
+        if(memberId != reply.member!!.id) {
+            throw TokenException("UnAuthorized Access Token")
+        }
         replyRepository.delete(reply)
     }
 
     @Transactional
-    fun updateReply(replyId: Long, replyRequest: ReplyRequest): ReplyResponse {
+    fun updateReply(
+        replyId: Long,
+        memberId: Long,
+        replyRequest: ReplyRequest
+    ): ReplyResponse {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId.toString())
+        if(memberId != reply.member!!.id) {
+            throw TokenException("UnAuthorized Access Token")
+        }
         return reply.updateReply(replyRequest).toResponse()
     }
 }

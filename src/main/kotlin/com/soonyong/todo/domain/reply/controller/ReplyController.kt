@@ -53,7 +53,7 @@ class ReplyController (
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(replyService.updateReply(replyId, replyRequest))
+            .body(replyService.updateReply(replyId, memberToken.memberId, replyRequest))
     }
 
     @DeleteMapping("/{replyId}")
@@ -68,6 +68,6 @@ class ReplyController (
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(replyService.deleteReply(replyId))
+            .body(replyService.deleteReply(replyId, memberToken.memberId))
     }
 }
