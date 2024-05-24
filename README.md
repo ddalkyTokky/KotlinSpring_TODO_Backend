@@ -34,14 +34,14 @@ _**- DBMS DDL 단에서 Cascade 옵션을 걸었기에 문제없음.**_
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/b737ae76-0f9e-48f0-8547-d85f72af3189)
 # 3. DBMS (MYSQL) (1.1.0)
 ## 3-1. Tables
-![o_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/18d5166e-6ad8-40df-acb7-61e67fc4f473)
+![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/1d81aeb9-6744-4919-a6bc-f4ced060088a)
 ## 3-2. DDL
 ```
 CREATE TABLE `member` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR(16) NOT NULL UNIQUE,
 	`pw` VARCHAR(64) NOT NULL,
-	`key` VARCHAR(8) NOT NULL,
+	`secret` VARCHAR(8) NOT NULL,
 	`created_at` timestamp NOT NULL
 );
 
