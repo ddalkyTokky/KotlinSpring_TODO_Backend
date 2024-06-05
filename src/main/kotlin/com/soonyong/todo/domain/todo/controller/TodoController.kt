@@ -1,11 +1,9 @@
 package com.soonyong.todo.domain.todo.controller;
 
-import com.soonyong.todo.domain.member.dto.MemberToken
 import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.*
 import com.soonyong.todo.domain.todo.service.TodoService
 import com.soonyong.todo.infra.exception.TokenException
-import com.soonyong.todo.infra.security.tokenParsing
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.http.HttpHeaders

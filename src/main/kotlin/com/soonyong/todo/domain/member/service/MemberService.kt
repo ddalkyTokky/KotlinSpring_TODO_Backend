@@ -2,7 +2,6 @@ package com.soonyong.todo.domain.member.service
 
 import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.dto.MemberResponse
-import com.soonyong.todo.domain.member.dto.MemberToken
 import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.member.repository.MemberRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
@@ -37,16 +36,13 @@ class MemberService (
         ).toResponse()
     }
 
-    fun signin(memberRequest: MemberRequest): MemberToken {
+    fun signin(memberRequest: MemberRequest): String {
         val member: Member =
             memberRepository.findMemberByName(memberRequest.name)
                 ?: throw ModelNotFoundException("Member", memberRequest.name)
 
         if (bCryptPasswordEncoder.matches(memberRequest.pw, member.pw)) {
-            return MemberToken(
-                member.id!!,
-                jwtService.generateToken("accessToken", member.name!!)
-            )
+            return jwtService.generateToken("accessToken", member.name!!)
         }
         throw SignInFailException()
     }

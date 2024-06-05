@@ -1,6 +1,5 @@
 package com.soonyong.todo.domain.reply.controller
 
-import com.soonyong.todo.domain.member.dto.MemberToken
 import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.reply.dto.ReplyRequest
 import com.soonyong.todo.domain.reply.service.ReplyService
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import com.soonyong.todo.domain.reply.dto.ReplyResponse
 import com.soonyong.todo.infra.exception.TokenException
-import com.soonyong.todo.infra.security.tokenParsing
 import jakarta.validation.Valid
 import org.springframework.http.HttpHeaders
 
