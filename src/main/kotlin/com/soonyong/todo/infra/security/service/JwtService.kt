@@ -1,15 +1,17 @@
-package com.soonyong.todo.infra.security
+package com.soonyong.todo.infra.security.service
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
+import org.springframework.stereotype.Service
 import java.nio.charset.StandardCharsets
 import java.time.Duration
 import java.time.Instant
 import java.util.Date
 
-class JwtPlugin {
+@Service
+class JwtService {
     companion object{
         const val ISSUER = "team.sparta.com"
         const val SECRET = "PO4c8z41Hia5gJG3oeuFJMRYBB4Ws4aZ"
@@ -22,7 +24,6 @@ class JwtPlugin {
             Jwts.parser().verifyWith(key).build().parseSignedClaims(token)
         }
     }
-
 
     fun generateAccessToken(subject: String, userName: String) : String{
         return generateToken(subject,userName, Duration.ofHours(ACCESS_TOKEN_EXPIRATION_HOUR))

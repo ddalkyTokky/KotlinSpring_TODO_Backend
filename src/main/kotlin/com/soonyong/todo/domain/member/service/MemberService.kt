@@ -13,13 +13,13 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.ui.Model
 import java.time.LocalDateTime
 
 @Service
 class MemberService (
     private val memberRepository: MemberRepository,
-    private val bCryptPasswordEncoder: BCryptPasswordEncoder
+    private val bCryptPasswordEncoder: BCryptPasswordEncoder,
+    private val jwtConfig
 ) {
     fun getMemberById(memberId: Long): Member {
         val member: Member =
@@ -44,8 +44,7 @@ class MemberService (
             memberRepository.findMemberByName(memberRequest.name)
                 ?: throw ModelNotFoundException("Member", memberRequest.name)
 
-        val expireAt = LocalDateTime.now().plusSeconds(expireDuration.toLong())
-        if (sha256(memberReqeust.pw + member.secret) == member.pw) {
+        if (bCryptPasswordEncoder.matches(memberRequest.pw, member.pw)) {
             return MemberToken(
                 member.id!!,
                 sha256(member.id!!.toString() + member.pw + expireAt.toString()),

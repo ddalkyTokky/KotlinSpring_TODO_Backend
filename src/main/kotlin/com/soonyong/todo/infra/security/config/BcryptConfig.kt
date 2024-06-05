@@ -1,4 +1,4 @@
-package com.soonyong.todo.infra.security
+package com.soonyong.todo.infra.security.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
