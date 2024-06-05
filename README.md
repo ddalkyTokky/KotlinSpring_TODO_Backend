@@ -2,7 +2,7 @@
 **[[스파르타 코딩클럽] TODO 서버 로그인 기능](https://strawberryrabbit.tistory.com/12)**                    
 
 # 0. 변경점
-
+- DDL 수정. (member pw, secret 길이 조정)
 
 # 1. 개발 & 테스트 환경
 ## 개발
