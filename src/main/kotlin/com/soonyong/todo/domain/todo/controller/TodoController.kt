@@ -30,7 +30,7 @@ class TodoController (
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(todoService.createTodo(createTodoRequest, memberToken.memberId))
+            .body(todoService.createTodo(createTodoRequest, 1L))
     }
 
     @GetMapping()
@@ -75,12 +75,12 @@ class TodoController (
         @RequestBody @Valid todoRequest: TodoRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
-        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
         memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.updateTodo(todoId, memberToken.memberId, todoRequest))
+            .body(todoService.updateTodo(todoId, 1L, todoRequest))
     }
 
     @PatchMapping("/{todoId}")
@@ -88,12 +88,12 @@ class TodoController (
         @PathVariable todoId: Long,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
-        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
         memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.finishTodo(todoId, memberToken.memberId))
+            .body(todoService.finishTodo(todoId, 1L))
     }
 
     @DeleteMapping("/{todoId}")
@@ -101,11 +101,11 @@ class TodoController (
         @PathVariable todoId: Long,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<Unit> {
-        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
         memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(todoService.deleteTodo(todoId, memberToken.memberId))
+            .body(todoService.deleteTodo(todoId, 1L))
     }
 }

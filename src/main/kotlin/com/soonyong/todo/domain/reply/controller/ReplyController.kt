@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import com.soonyong.todo.domain.reply.dto.ReplyResponse
+import com.soonyong.todo.infra.exception.TokenException
 import com.soonyong.todo.infra.security.tokenParsing
 import jakarta.validation.Valid
 import org.springframework.http.HttpHeaders
@@ -24,7 +25,7 @@ class ReplyController (
         @RequestBody @Valid replyRequest: ReplyRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<ReplyResponse> {
-        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
         memberService.tokenValidation(token)
 
         return ResponseEntity
@@ -32,7 +33,7 @@ class ReplyController (
             .body(
                 replyService.createReply(
                     todoId,
-                    memberToken.memberId,
+                    1L,
                     replyRequest
                 )
             )
@@ -44,12 +45,12 @@ class ReplyController (
         @RequestBody @Valid replyRequest: ReplyRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<ReplyResponse> {
-        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
         memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(replyService.updateReply(replyId, memberToken.memberId, replyRequest))
+            .body(replyService.updateReply(replyId, 1L, replyRequest))
     }
 
     @DeleteMapping("/{replyId}")
@@ -57,11 +58,11 @@ class ReplyController (
         @PathVariable replyId: Long,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<Unit> {
-        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
         memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(replyService.deleteReply(replyId, memberToken.memberId))
+            .body(replyService.deleteReply(replyId, 1L))
     }
 }
