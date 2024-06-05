@@ -8,16 +8,18 @@ import com.soonyong.todo.domain.member.repository.MemberRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
 import com.soonyong.todo.infra.exception.SignInFailException
 import com.soonyong.todo.infra.exception.TokenException
-import com.soonyong.todo.infra.security.sha256
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.ui.Model
 import java.time.LocalDateTime
 
 @Service
 class MemberService (
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    private val bCryptPasswordEncoder: BCryptPasswordEncoder
 ) {
     fun getMemberById(memberId: Long): Member {
         val member: Member =
@@ -26,23 +28,21 @@ class MemberService (
     }
 
     @Transactional
-    fun createMember(memberReqeust: MemberRequest): MemberResponse {
+    fun createMember(memberRequest: MemberRequest): MemberResponse {
         val secret: String = RandomStringUtils.randomAlphabetic(256)
         return memberRepository.save(
             Member.createMember(
-                memberReqeust.name,
-                sha256(memberReqeust.pw + secret),
+                memberRequest.name,
+                bCryptPasswordEncoder.encode(memberRequest.pw),
                 secret
             )
         ).toResponse()
     }
 
-    fun signin(memberReqeust: MemberRequest): MemberToken {
-        val expireDuration: Int = (60 * 30)
-
+    fun signin(memberRequest: MemberRequest): MemberToken {
         val member: Member =
-            memberRepository.findMemberByName(memberReqeust.name)
-                ?: throw SignInFailException("member name")
+            memberRepository.findMemberByName(memberRequest.name)
+                ?: throw ModelNotFoundException("Member", memberRequest.name)
 
         val expireAt = LocalDateTime.now().plusSeconds(expireDuration.toLong())
         if (sha256(memberReqeust.pw + member.secret) == member.pw) {
@@ -52,7 +52,7 @@ class MemberService (
                 expireAt
             )
         }
-        throw SignInFailException("password")
+        throw SignInFailException()
     }
 
     fun tokenValidation(memberToken: MemberToken) {
