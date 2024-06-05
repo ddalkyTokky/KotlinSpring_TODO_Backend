@@ -24,10 +24,8 @@ class ReplyController (
         @RequestBody @Valid replyRequest: ReplyRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<ReplyResponse> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
@@ -46,10 +44,8 @@ class ReplyController (
         @RequestBody @Valid replyRequest: ReplyRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<ReplyResponse> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -61,10 +57,8 @@ class ReplyController (
         @PathVariable replyId: Long,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<Unit> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)

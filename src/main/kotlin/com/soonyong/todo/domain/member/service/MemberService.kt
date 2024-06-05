@@ -32,8 +32,7 @@ class MemberService (
         return memberRepository.save(
             Member.createMember(
                 memberRequest.name,
-                bCryptPasswordEncoder.encode(memberRequest.pw),
-                secret
+                bCryptPasswordEncoder.encode(memberRequest.pw)
             )
         ).toResponse()
     }
@@ -46,16 +45,13 @@ class MemberService (
         if (bCryptPasswordEncoder.matches(memberRequest.pw, member.pw)) {
             return MemberToken(
                 member.id!!,
-                jwtService.generateToken("accessToken", member.name!!, member.secret!!)
+                jwtService.generateToken("accessToken", member.name!!)
             )
         }
         throw SignInFailException()
     }
 
-    fun tokenValidation(memberToken: MemberToken) {
-        val member: Member =
-            memberRepository.findByIdOrNull(memberToken.memberId)
-                ?: throw ModelNotFoundException("Member", memberToken.memberId.toString())
-        jwtService.validateToken(memberToken.token, member.secret!!)
+    fun tokenValidation(token: String): String {
+        return jwtService.validateToken(token).toString()
     }
 }

@@ -4,6 +4,7 @@ import com.soonyong.todo.domain.member.dto.MemberToken
 import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.*
 import com.soonyong.todo.domain.todo.service.TodoService
+import com.soonyong.todo.infra.exception.TokenException
 import com.soonyong.todo.infra.security.tokenParsing
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -24,10 +25,8 @@ class TodoController (
         @RequestBody @Valid createTodoRequest: TodoRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
+        memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
@@ -76,10 +75,8 @@ class TodoController (
         @RequestBody @Valid todoRequest: TodoRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -91,10 +88,8 @@ class TodoController (
         @PathVariable todoId: Long,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -106,10 +101,8 @@ class TodoController (
         @PathVariable todoId: Long,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<Unit> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw
+        memberService.tokenValidation(token)
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
