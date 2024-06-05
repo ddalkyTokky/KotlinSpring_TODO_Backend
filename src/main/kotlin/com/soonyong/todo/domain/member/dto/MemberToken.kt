@@ -4,6 +4,5 @@ import java.time.LocalDateTime
 
 data class MemberToken (
     val memberId: Long,
-    val token: String,
-    val expireAt: LocalDateTime
+    val token: String
 )

@@ -14,23 +14,22 @@ import java.util.Date
 class JwtService {
     companion object{
         const val ISSUER = "team.sparta.com"
-        const val SECRET = "PO4c8z41Hia5gJG3oeuFJMRYBB4Ws4aZ"
         const val ACCESS_TOKEN_EXPIRATION_HOUR : Long = 168
     }
 
-    fun validateToken(token : String) : Result<Jws<Claims>>{
+    fun validateToken(token: String, secret: String) : Result<Jws<Claims>>{
         return kotlin.runCatching {
-            val key = Keys.hmacShaKeyFor(SECRET.toByteArray(StandardCharsets.UTF_8))
+            val key = Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
             Jwts.parser().verifyWith(key).build().parseSignedClaims(token)
         }
     }
 
-    private fun generateToken(subject: String, userName: String): String {
+    fun generateToken(subject: String, memberName: String, secret: String): String {
         val claims: Claims = Jwts.claims()
-            .add(mapOf("username" to userName))
+            .add(mapOf("memberName" to memberName))
             .build()
 
-        val key = Keys.hmacShaKeyFor(SECRET.toByteArray(StandardCharsets.UTF_8))
+        val key = Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
         val now = Instant.now()
 
         return Jwts.builder()

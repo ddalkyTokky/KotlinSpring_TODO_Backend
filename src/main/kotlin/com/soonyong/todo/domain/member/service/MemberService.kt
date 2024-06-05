@@ -7,14 +7,12 @@ import com.soonyong.todo.domain.member.model.Member
 import com.soonyong.todo.domain.member.repository.MemberRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
 import com.soonyong.todo.infra.exception.SignInFailException
-import com.soonyong.todo.infra.exception.TokenException
 import com.soonyong.todo.infra.security.service.JwtService
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 @Service
 class MemberService (
@@ -46,27 +44,18 @@ class MemberService (
                 ?: throw ModelNotFoundException("Member", memberRequest.name)
 
         if (bCryptPasswordEncoder.matches(memberRequest.pw, member.pw)) {
-
             return MemberToken(
                 member.id!!,
-                sha256(member.id!!.toString() + member.pw + expireAt.toString()),
-                expireAt
+                jwtService.generateToken("accessToken", member.name!!, member.secret!!)
             )
         }
         throw SignInFailException()
     }
 
     fun tokenValidation(memberToken: MemberToken) {
-        if (memberToken.expireAt.isBefore(LocalDateTime.now())) {
-            throw TokenException("token expiredAt ${memberToken.expireAt}")
-        }
-
         val member: Member =
             memberRepository.findByIdOrNull(memberToken.memberId)
-                ?: throw TokenException("Unvaild Token memberId")
-
-        if(sha256(memberToken.memberId.toString() + member.pw + memberToken.expireAt) != memberToken.token){
-            throw TokenException("Unvaild Token!!")
-        }
+                ?: throw ModelNotFoundException("Member", memberToken.memberId.toString())
+        jwtService.validateToken(memberToken.token, member.secret!!)
     }
 }
