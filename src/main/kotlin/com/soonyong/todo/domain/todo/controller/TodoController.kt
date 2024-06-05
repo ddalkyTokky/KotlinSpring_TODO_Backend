@@ -4,6 +4,8 @@ import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.todo.dto.*
 import com.soonyong.todo.domain.todo.service.TodoService
 import com.soonyong.todo.infra.exception.TokenException
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.http.HttpHeaders
@@ -18,6 +20,12 @@ class TodoController (
     private val todoService: TodoService,
     private val memberService: MemberService
 ) {
+    @GetMapping("/header/test")
+    fun headerTest(@RequestHeader httpsHeaders: HttpHeaders): String? {
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
+        return memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
+    }
+
     @PostMapping()
     fun createTodo(
         @RequestBody @Valid createTodoRequest: TodoRequest,

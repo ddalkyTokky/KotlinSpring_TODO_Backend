@@ -7,6 +7,8 @@ import com.soonyong.todo.domain.member.repository.MemberRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
 import com.soonyong.todo.infra.exception.SignInFailException
 import com.soonyong.todo.infra.security.service.JwtService
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -47,7 +49,7 @@ class MemberService (
         throw SignInFailException()
     }
 
-    fun tokenValidation(token: String): String {
-        return jwtService.validateToken(token).toString()
+    fun tokenValidation(token: String): Result<Jws<Claims>> {
+        return jwtService.validateToken(token)
     }
 }
