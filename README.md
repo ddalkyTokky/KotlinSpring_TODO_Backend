@@ -1,6 +1,10 @@
 **[[스파르타 코딩클럽] TODO 서버 개발 기획 문서](https://strawberryrabbit.tistory.com/6)**                     
 **[[스파르타 코딩클럽] TODO 서버 로그인 기능](https://strawberryrabbit.tistory.com/12)**                    
-# 0. 개발 & 테스트 환경
+
+# 0. 변경점
+
+
+# 1. 개발 & 테스트 환경
 ## 개발
 - IntelliJ 2024.1 Ultimate
 - Spring boot 3.2.5
@@ -11,7 +15,7 @@
 - Swagger
 - Talend 크롬 확장 프로그램
 
-# 1. 질문 사항
+# 2. 질문 사항
 
 💡 **Why: 과제 제출시에는 아래 질문을 고민해보고 답변을 함께 제출해주세요.**
 
@@ -43,12 +47,12 @@ _**- DBMS DDL 단에서 Cascade 옵션을 걸었기에 문제없음.**_
 5. IoC / DI 에 대해 간략하게 설명해 주세요!                         
 **_프레임워크가 담당해주니까 짱 편함. (말 그대로 프레임 워크가 대부분의 의존성을 관리하고, 그 의존 관계가 때에 따라 역전되는 것.)_**
                   
-# 2. USE CASE
+# 3. USE CASE
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/bcc2cfd9-16fc-41d2-913d-23de396c82f0)
-# 3. DBMS (MYSQL) (1.1.0)
-## 3-1. Tables
+# 4. DBMS (MYSQL) (1.1.0)
+## 4-1. Tables
 ![todo_list](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/4330220b-867d-48a1-8acb-2b983596e0af)
-## 3-2. DDL
+## 4-2. DDL
 ```
 CREATE TABLE `member` (
 	`id` bigint UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -81,18 +85,18 @@ ALTER TABLE `reply` ADD FOREIGN KEY (`member_id`) REFERENCES `member` (`id`);
 ALTER TABLE `reply` ADD FOREIGN KEY (`todo_id`) REFERENCES `todo` (`id`);
 ```
 
-# 4. API (1.0.0)
-## 4-1. Todo API
+# 5. API (1.0.0)
+## 5-1. Todo API
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/5269e8bf-8afd-40bf-b7a1-5a02747047a4)
-## 4-2. Reply API
+## 5-2. Reply API
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/2aca15ad-1f80-4e0d-9588-6467e196c71c)
-## 4-3. Member API
+## 5-3. Member API
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/cbf9a009-1055-4c3c-97a4-f7edeaef55a4)
 
-# 5. 코드 특징
+# 6. 코드 특징
 예제 코드와 몇 가지 다른 점이 존재한다.
 
-## 5-1. Entity 생성 수정 전략
+## 6-1. Entity 생성 수정 전략
 Entity Class Property 기능을 사용하지 않고, companion 등을 활용한 [독자적인 생성 및 수정 패턴](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/model/Todo.kt#L36)을 사용햇다.
 
 ```
@@ -125,7 +129,7 @@ fun updateTodo(todoRequest: TodoRequest): Todo{
         return this
     }
 ```
-## 5-2. Assert 도입
+## 6-2. Assert 도입
 쿼리문 검증을 [Assert](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.0.0)/src/main/kotlin/com/soonyong/todo/domain/todo/controller/TodoController.kt#L45)로 진행함.
 ```
 Assert.isTrue(
@@ -142,7 +146,7 @@ Assert.isTrue(
 )
 ```
 
-## 5-3. Token을 직접 만듦.
+## 6-3. Token을 직접 만듦.
 처음에는 Spring Security에 대해 공부하다가 볼륨도 크고 비효율적인 스터디가 되어가는 것 같아, 직접 토큰을 만들기로 함.
 
 ### a. [sha256](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.1.0)/src/main/kotlin/com/soonyong/todo/infra/security/sha256.kt) 함수 생성.
