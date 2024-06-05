@@ -25,11 +25,7 @@ class JwtService {
         }
     }
 
-    fun generateAccessToken(subject: String, userName: String) : String{
-        return generateToken(subject,userName, Duration.ofHours(ACCESS_TOKEN_EXPIRATION_HOUR))
-    }
-
-    private fun generateToken(subject: String, userName: String, expirationPeriod: Duration?): String {
+    private fun generateToken(subject: String, userName: String): String {
         val claims: Claims = Jwts.claims()
             .add(mapOf("username" to userName))
             .build()
@@ -41,7 +37,13 @@ class JwtService {
             .subject(subject)
             .issuer(ISSUER)
             .issuedAt(Date.from(now))
-            .expiration(Date.from(now.plus(expirationPeriod)))
+            .expiration(
+                Date.from(
+                    now.plus(
+                        Duration.ofHours(ACCESS_TOKEN_EXPIRATION_HOUR)
+                    )
+                )
+            )
             .claims(claims)
             .signWith(key)
             .compact()

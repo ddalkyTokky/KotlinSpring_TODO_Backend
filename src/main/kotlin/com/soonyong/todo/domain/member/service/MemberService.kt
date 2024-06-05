@@ -8,6 +8,7 @@ import com.soonyong.todo.domain.member.repository.MemberRepository
 import com.soonyong.todo.infra.exception.ModelNotFoundException
 import com.soonyong.todo.infra.exception.SignInFailException
 import com.soonyong.todo.infra.exception.TokenException
+import com.soonyong.todo.infra.security.service.JwtService
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -19,7 +20,7 @@ import java.time.LocalDateTime
 class MemberService (
     private val memberRepository: MemberRepository,
     private val bCryptPasswordEncoder: BCryptPasswordEncoder,
-    private val jwtConfig
+    private val jwtService: JwtService
 ) {
     fun getMemberById(memberId: Long): Member {
         val member: Member =
@@ -45,6 +46,7 @@ class MemberService (
                 ?: throw ModelNotFoundException("Member", memberRequest.name)
 
         if (bCryptPasswordEncoder.matches(memberRequest.pw, member.pw)) {
+
             return MemberToken(
                 member.id!!,
                 sha256(member.id!!.toString() + member.pw + expireAt.toString()),
