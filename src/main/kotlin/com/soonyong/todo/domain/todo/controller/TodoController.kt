@@ -20,12 +20,6 @@ class TodoController (
     private val todoService: TodoService,
     private val memberService: MemberService
 ) {
-    @GetMapping("/header/test")
-    fun headerTest(@RequestHeader httpsHeaders: HttpHeaders): String? {
-        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
-        return memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
-    }
-
     @PostMapping()
     fun createTodo(
         @RequestBody @Valid createTodoRequest: TodoRequest,
