@@ -6,6 +6,7 @@
 # 0. 변경점
 - io.jsonwebtoken 사용.
 - DBMS member 테이블 secret 열 삭제
+- 비밀번호 암호화 알고리즘 변경 (sha256 MD5 => BCryptPasswordEncoder)
 
 # 1. 개발 & 테스트 환경
 ## 개발
