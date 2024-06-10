@@ -27,12 +27,12 @@ public class TodoService (
     @Transactional
     fun createTodo(
         todoRequest: TodoRequest,
-        memberId: Long
+        memberName: String
     ): TodoSimpleResponse {
         return todoRepository.save(
             Todo.createTodo(
                 todoRequest,
-                memberService.getMemberById(memberId)
+                memberService.getMemberByName(memberName)
             )
         ).toSimpleResponse()
     }
@@ -82,27 +82,27 @@ public class TodoService (
     }
 
     @Transactional
-    fun deleteTodo(todoId: Long, memberId: Long) {
+    fun deleteTodo(todoId: Long, memberName: String) {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-        if(memberId != todo.member!!.id) {
+        if(memberName != todo.member!!.name) {
             throw TokenException("UnAuthorized Access Token")
         }
         todoRepository.delete(todo)
     }
 
     @Transactional
-    fun finishTodo(todoId: Long, memberId: Long): TodoSimpleResponse {
+    fun finishTodo(todoId: Long, memberName: String): TodoSimpleResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-        if(memberId != todo.member!!.id) {
+        if(memberName != todo.member!!.name) {
             throw TokenException("UnAuthorized Access Token")
         }
         return todo.finishTodo().toSimpleResponse()
     }
 
     @Transactional
-    fun updateTodo(todoId: Long, memberId: Long, todoRequest: TodoRequest): TodoSimpleResponse {
+    fun updateTodo(todoId: Long, memberName: String, todoRequest: TodoRequest): TodoSimpleResponse {
         val todo = todoRepository.findByIdOrNull(todoId) ?: throw ModelNotFoundException("Todo", todoId.toString())
-        if(memberId != todo.member!!.id) {
+        if(memberName != todo.member!!.name) {
             throw TokenException("UnAuthorized Access Token")
         }
         return todo.updateTodo(todoRequest).toSimpleResponse()

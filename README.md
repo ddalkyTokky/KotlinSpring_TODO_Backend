@@ -188,7 +188,7 @@ return memberRepository.save(
 ### c. [MemberToken](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/blob/main(1.1.0)/src/main/kotlin/com/soonyong/todo/domain/member/dto/MemberToken.kt)
 ```
 data class MemberToken (
-    val memberId: Long,
+    val memberName: String,
     val token: String,
     val expireAt: LocalDateTime
 )
@@ -216,16 +216,16 @@ fun tokenValidation(memberToken: MemberToken) {
         }
 
         val member: Member =
-            memberRepository.findByIdOrNull(memberToken.memberId)
+            memberRepository.findByIdOrNull(1L)
                 ?: throw TokenException("Unvaild Token memberId")
 
-        if(sha256(memberToken.memberId.toString() + member.pw + memberToken.expireAt) != memberToken.token){
+        if(sha256(1L.toString() + member.pw + memberToken.expireAt) != memberToken.token){
             throw TokenException("Unvaild Token!!")
         }
     }
 ```
 ```
-if(memberId != reply.member!!.id) {
+if(memberName != reply.member!!.name) {
     throw TokenException("UnAuthorized Access Token")
 }
 ```

@@ -19,15 +19,11 @@ class Member{
     @Column(nullable = false, length = 64)
     var pw: String? = null
 
-    @Column(nullable = false, length = 256)
-    var secret: String? = null
-
     companion object {
-        fun createMember(name: String, pw: String, secret: String): Member {
+        fun createMember(name: String, pw: String): Member {
             val member: Member = Member()
             member.name = name
             member.pw = pw
-            member.secret = secret
             return member
         }
     }

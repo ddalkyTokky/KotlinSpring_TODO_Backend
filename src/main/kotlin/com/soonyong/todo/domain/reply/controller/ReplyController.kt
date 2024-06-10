@@ -1,6 +1,5 @@
 package com.soonyong.todo.domain.reply.controller
 
-import com.soonyong.todo.domain.member.dto.MemberToken
 import com.soonyong.todo.domain.member.service.MemberService
 import com.soonyong.todo.domain.reply.dto.ReplyRequest
 import com.soonyong.todo.domain.reply.service.ReplyService
@@ -8,7 +7,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import com.soonyong.todo.domain.reply.dto.ReplyResponse
-import com.soonyong.todo.infra.security.tokenParsing
+import com.soonyong.todo.infra.exception.TokenException
 import jakarta.validation.Valid
 import org.springframework.http.HttpHeaders
 
@@ -24,17 +23,15 @@ class ReplyController (
         @RequestBody @Valid replyRequest: ReplyRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<ReplyResponse> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(
                 replyService.createReply(
                     todoId,
-                    memberToken.memberId,
+                    memberName,
                     replyRequest
                 )
             )
@@ -46,14 +43,12 @@ class ReplyController (
         @RequestBody @Valid replyRequest: ReplyRequest,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<ReplyResponse> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(replyService.updateReply(replyId, memberToken.memberId, replyRequest))
+            .body(replyService.updateReply(replyId, memberName, replyRequest))
     }
 
     @DeleteMapping("/{replyId}")
@@ -61,13 +56,11 @@ class ReplyController (
         @PathVariable replyId: Long,
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<Unit> {
-        httpsHeaders.get("token") ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
-
-        val memberToken: MemberToken = tokenParsing(httpsHeaders.get("token")!!.get(0))
-        memberService.tokenValidation(memberToken)
+        val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(replyService.deleteReply(replyId, memberToken.memberId))
+            .body(replyService.deleteReply(replyId, memberName))
     }
 }
