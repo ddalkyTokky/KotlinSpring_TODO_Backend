@@ -63,7 +63,7 @@ ALTER TABLE `reply` ADD FOREIGN KEY (`todo_id`) REFERENCES `todo` (`id`);
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/2aca15ad-1f80-4e0d-9588-6467e196c71c)
 ## 4-3. Member API
 ![image](https://github.com/ddalkyTokky/KotlinSpring_TODO_Backend/assets/47583083/cbf9a009-1055-4c3c-97a4-f7edeaef55a4)                
-[카카오 로그인 (FE가 직접 URL을 제공한다는 시나리오)](https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c2cd759e95a110bd1bd3208ce6069b5e&redirect_uri=http://soonyong.strawberryrabbit.kro.kr/member/redirect)
+**[카카오 로그인 (FE가 직접 URL을 제공한다는 시나리오)](https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c2cd759e95a110bd1bd3208ce6069b5e&redirect_uri=http://soonyong.strawberryrabbit.kro.kr/member/redirect)**
 
 # 5. 코드 특징
 작성 요.
