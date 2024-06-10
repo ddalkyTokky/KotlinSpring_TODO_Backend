@@ -38,7 +38,7 @@ class MemberController (
     fun redirect(@RequestParam requestParam: Map<String, String>): String{
         val requestData = mutableMapOf(
             "grant_type" to "authorization_code",
-            "client_id" to "SoonYong",
+            "client_id" to "c2cd759e95a110bd1bd3208ce6069b5e",
             "code" to requestParam.get("code")
         )
         return restClient.post()
