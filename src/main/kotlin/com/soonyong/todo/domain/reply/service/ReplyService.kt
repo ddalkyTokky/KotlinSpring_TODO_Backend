@@ -20,12 +20,12 @@ class ReplyService (
 ){
     @Transactional
     fun createReply(todoId: Long,
-                    memberId: Long,
+                    memberName: String,
                     replyRequest: ReplyRequest
     ): ReplyResponse {
         return replyRepository.save(
             Reply.createReply(
-                memberService.getMemberById(memberId),
+                memberService.getMemberByName(memberName),
                 todoService.getTodoById(todoId),
                 replyRequest
             )
@@ -33,9 +33,9 @@ class ReplyService (
     }
 
     @Transactional
-    fun deleteReply(replyId: Long, memberId: Long) {
+    fun deleteReply(replyId: Long, memberName: String) {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId.toString())
-        if(memberId != reply.member!!.id) {
+        if(memberName != reply.member!!.name) {
             throw TokenException("UnAuthorized Access Token")
         }
         replyRepository.delete(reply)
@@ -44,11 +44,11 @@ class ReplyService (
     @Transactional
     fun updateReply(
         replyId: Long,
-        memberId: Long,
+        memberName: String,
         replyRequest: ReplyRequest
     ): ReplyResponse {
         val reply = replyRepository.findByIdOrNull(replyId) ?: throw ModelNotFoundException("Reply", replyId.toString())
-        if(memberId != reply.member!!.id) {
+        if(memberName != reply.member!!.name) {
             throw TokenException("UnAuthorized Access Token")
         }
         return reply.updateReply(replyRequest).toResponse()

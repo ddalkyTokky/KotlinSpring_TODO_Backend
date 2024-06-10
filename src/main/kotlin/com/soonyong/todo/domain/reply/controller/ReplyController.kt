@@ -24,14 +24,14 @@ class ReplyController (
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<ReplyResponse> {
         val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
-        memberService.tokenValidation(token)
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(
                 replyService.createReply(
                     todoId,
-                    1L,
+                    memberName,
                     replyRequest
                 )
             )
@@ -44,11 +44,11 @@ class ReplyController (
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<ReplyResponse> {
         val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
-        memberService.tokenValidation(token)
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(replyService.updateReply(replyId, 1L, replyRequest))
+            .body(replyService.updateReply(replyId, memberName, replyRequest))
     }
 
     @DeleteMapping("/{replyId}")
@@ -57,10 +57,10 @@ class ReplyController (
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<Unit> {
         val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
-        memberService.tokenValidation(token)
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(replyService.deleteReply(replyId, 1L))
+            .body(replyService.deleteReply(replyId, memberName))
     }
 }

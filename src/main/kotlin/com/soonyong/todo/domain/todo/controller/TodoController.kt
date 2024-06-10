@@ -26,11 +26,11 @@ class TodoController (
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
         val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
-        memberService.tokenValidation(token)
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(todoService.createTodo(createTodoRequest, 1L))
+            .body(todoService.createTodo(createTodoRequest, memberName))
     }
 
     @GetMapping()
@@ -76,11 +76,11 @@ class TodoController (
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
         val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
-        memberService.tokenValidation(token)
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.updateTodo(todoId, 1L, todoRequest))
+            .body(todoService.updateTodo(todoId, memberName, todoRequest))
     }
 
     @PatchMapping("/{todoId}")
@@ -89,11 +89,11 @@ class TodoController (
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<TodoSimpleResponse> {
         val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
-        memberService.tokenValidation(token)
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(todoService.finishTodo(todoId, 1L))
+            .body(todoService.finishTodo(todoId, memberName))
     }
 
     @DeleteMapping("/{todoId}")
@@ -102,10 +102,10 @@ class TodoController (
         @RequestHeader httpsHeaders: HttpHeaders
     ): ResponseEntity<Unit> {
         val token: String = httpsHeaders.get("Authorization")?.get(0) ?: throw TokenException("No Token Found")
-        memberService.tokenValidation(token)
+        val memberName: String = memberService.tokenValidation(token).getOrNull()?.payload?.get("memberName").toString()
 
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(todoService.deleteTodo(todoId, 1L))
+            .body(todoService.deleteTodo(todoId, memberName))
     }
 }

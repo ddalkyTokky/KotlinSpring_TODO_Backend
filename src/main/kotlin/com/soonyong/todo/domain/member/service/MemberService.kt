@@ -27,6 +27,12 @@ class MemberService (
         return member
     }
 
+    fun getMemberByName(memberName: String): Member {
+        val member: Member =
+            memberRepository.findMemberByName(memberName) ?: throw ModelNotFoundException("Member", memberName)
+        return member
+    }
+
     @Transactional
     fun createMember(memberRequest: MemberRequest): MemberResponse {
         val secret: String = RandomStringUtils.randomAlphabetic(256)
