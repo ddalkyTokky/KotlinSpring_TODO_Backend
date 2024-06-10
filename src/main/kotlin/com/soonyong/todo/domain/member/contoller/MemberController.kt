@@ -1,5 +1,7 @@
 package com.soonyong.todo.domain.member.contoller
 
+import com.soonyong.todo.domain.member.dto.KakaoLoginUserInfoDTO
+import com.soonyong.todo.domain.member.dto.KakaoToken
 import com.soonyong.todo.domain.member.dto.MemberRequest
 import com.soonyong.todo.domain.member.dto.MemberResponse
 import com.soonyong.todo.domain.member.service.MemberService
@@ -35,13 +37,13 @@ class MemberController (
     }
 
     @GetMapping("redirect")
-    fun redirect(@RequestParam requestParam: Map<String, String>): String{
+    fun redirect(@RequestParam requestParam: Map<String, String>): Any{
         val requestData = mutableMapOf(
             "grant_type" to "authorization_code",
             "client_id" to "c2cd759e95a110bd1bd3208ce6069b5e",
             "code" to requestParam.get("code")
         )
-        return restClient.post()
+         val token: KakaoToken =  restClient.post()
             .uri("https://kauth.kakao.com/oauth/token")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .body(LinkedMultiValueMap<String, String>().apply { this.setAll(requestData) })
@@ -49,7 +51,17 @@ class MemberController (
             .onStatus(HttpStatusCode::isError) { _, _ ->
                 throw RuntimeException("카카오 AccessToken 조회 실패")
             }
-            .body<String>()
+            .body<KakaoToken>()
             ?: throw RuntimeException("카카오 AccessToken 조회 실패")
+
+        return restClient.get()
+            .uri("https://kapi.kakao.com/v2/user/me")
+            .header("Authorization", "Bearer ${token.access_token}")
+            .retrieve()
+            .onStatus(HttpStatusCode::isError) { _, _ ->
+                throw RuntimeException("카카오 UserInfo 조회 실패")
+            }
+            .body<Any>()
+            ?: throw RuntimeException("카카오 UserInfo 조회 실패")
     }
 }
